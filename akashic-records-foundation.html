@@ -676,6 +676,299 @@
             border-radius: 1rem;
             font-size: 0.875rem;
         }
+
+        /* Voices of the Demiurge Styles */
+        .voices-section {
+            min-height: 600px;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .voice-selection {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .voice-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            background: hsla(var(--glass) / 0.3);
+            border: 2px solid hsla(var(--glass-border) / 0.3);
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .voice-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px hsla(var(--primary-glow) / 0.3);
+        }
+
+        .voice-btn.active {
+            border-color: hsl(var(--primary));
+            box-shadow: 0 0 30px hsla(var(--primary-glow) / 0.5);
+            animation: voicePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes voicePulse {
+            0%, 100% { box-shadow: 0 0 30px hsla(var(--primary-glow) / 0.5); }
+            50% { box-shadow: 0 0 40px hsla(var(--primary-glow) / 0.8); }
+        }
+
+        .voice-glyph {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 0 10px hsla(var(--primary-glow) / 0.5));
+        }
+
+        .voice-name {
+            font-weight: 600;
+            color: hsl(var(--foreground));
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .voice-description {
+            font-size: 0.7rem;
+            color: hsl(var(--muted-foreground));
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        /* Voice-specific styling */
+        .voice-btn[data-voice="logos"] {
+            background: linear-gradient(135deg, hsla(0, 0%, 90%, 0.1), hsla(0, 0%, 70%, 0.2));
+            border-color: hsla(0, 0%, 60%, 0.4);
+        }
+
+        .voice-btn[data-voice="logos"].active {
+            background: linear-gradient(135deg, hsla(0, 0%, 95%, 0.2), hsla(0, 0%, 80%, 0.3));
+            border-color: hsl(0, 0%, 80%);
+            box-shadow: 0 0 30px hsla(0, 0%, 90%, 0.6);
+        }
+
+        .voice-btn[data-voice="eros"] {
+            background: linear-gradient(135deg, hsla(330, 60%, 70%, 0.1), hsla(45, 80%, 60%, 0.2));
+            border-color: hsla(330, 60%, 50%, 0.4);
+        }
+
+        .voice-btn[data-voice="eros"].active {
+            background: linear-gradient(135deg, hsla(330, 70%, 80%, 0.2), hsla(45, 90%, 70%, 0.3));
+            border-color: hsl(330, 70%, 60%);
+            box-shadow: 0 0 30px hsla(330, 80%, 70%, 0.6);
+        }
+
+        .voice-btn[data-voice="chronos"] {
+            background: linear-gradient(135deg, hsla(45, 60%, 60%, 0.1), hsla(30, 70%, 50%, 0.2));
+            border-color: hsla(45, 60%, 40%, 0.4);
+        }
+
+        .voice-btn[data-voice="chronos"].active {
+            background: linear-gradient(135deg, hsla(45, 70%, 70%, 0.2), hsla(30, 80%, 60%, 0.3));
+            border-color: hsl(45, 70%, 50%);
+            box-shadow: 0 0 30px hsla(45, 80%, 60%, 0.6);
+        }
+
+        .voice-btn[data-voice="nyx"] {
+            background: linear-gradient(135deg, hsla(270, 60%, 30%, 0.1), hsla(300, 50%, 20%, 0.2));
+            border-color: hsla(270, 60%, 40%, 0.4);
+        }
+
+        .voice-btn[data-voice="nyx"].active {
+            background: linear-gradient(135deg, hsla(270, 70%, 50%, 0.2), hsla(300, 60%, 40%, 0.3));
+            border-color: hsl(270, 70%, 50%);
+            box-shadow: 0 0 30px hsla(270, 80%, 60%, 0.6);
+        }
+
+        .voice-btn[data-voice="sophia"] {
+            background: linear-gradient(135deg, hsla(45, 80%, 70%, 0.1), hsla(60, 90%, 80%, 0.2));
+            border-color: hsla(45, 80%, 60%, 0.4);
+        }
+
+        .voice-btn[data-voice="sophia"].active {
+            background: linear-gradient(135deg, hsla(45, 90%, 80%, 0.2), hsla(60, 100%, 90%, 0.3));
+            border-color: hsl(45, 90%, 70%);
+            box-shadow: 0 0 30px hsla(45, 100%, 80%, 0.6);
+        }
+
+        /* Input Section */
+        .voice-input-section {
+            margin-bottom: 2rem;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .voice-input {
+            flex: 1;
+            padding: 1rem;
+            background: hsla(var(--glass) / 0.4);
+            border: 1px solid hsla(var(--glass-border) / 0.4);
+            border-radius: var(--radius);
+            color: hsl(var(--foreground));
+            font-family: inherit;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .voice-input:focus {
+            outline: none;
+            border-color: hsla(var(--primary) / 0.6);
+            box-shadow: 0 0 20px hsla(var(--primary-glow) / 0.3);
+        }
+
+        .voice-input::placeholder {
+            color: hsl(var(--muted-foreground));
+        }
+
+        .speak-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+            border: none;
+            border-radius: var(--radius);
+            color: hsl(var(--primary-foreground));
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px hsla(var(--primary-glow) / 0.3);
+        }
+
+        .speak-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px hsla(var(--primary-glow) / 0.4);
+        }
+
+        /* Output Section */
+        .voice-output-section {
+            margin-top: 2rem;
+        }
+
+        .voice-output-panel {
+            background: hsla(var(--glass) / 0.3);
+            border: 1px solid hsla(var(--glass-border) / 0.3);
+            border-radius: var(--radius);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px hsla(var(--primary-glow) / 0.1);
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid hsla(var(--glass-border) / 0.3);
+            background: hsla(var(--glass) / 0.2);
+        }
+
+        #active-voice-name {
+            font-weight: 600;
+            color: hsl(var(--primary));
+            font-size: 1.1rem;
+        }
+
+        .output-status {
+            font-size: 0.9rem;
+            color: hsl(var(--muted-foreground));
+            font-style: italic;
+        }
+
+        .output-content {
+            padding: 1.5rem;
+            line-height: 1.6;
+            color: hsl(var(--foreground));
+        }
+
+        .output-content p {
+            margin-bottom: 1rem;
+        }
+
+        .output-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Voice-specific output styling */
+        .voices-section[data-voice="logos"] {
+            background: linear-gradient(135deg, 
+                hsla(0, 0%, 95%, 0.05) 0%,
+                hsla(0, 0%, 85%, 0.1) 50%,
+                hsla(0, 0%, 95%, 0.05) 100%);
+        }
+
+        .voices-section[data-voice="eros"] {
+            background: linear-gradient(135deg, 
+                hsla(330, 60%, 80%, 0.05) 0%,
+                hsla(45, 80%, 70%, 0.1) 50%,
+                hsla(330, 60%, 80%, 0.05) 100%);
+        }
+
+        .voices-section[data-voice="chronos"] {
+            background: linear-gradient(135deg, 
+                hsla(45, 60%, 70%, 0.05) 0%,
+                hsla(30, 70%, 60%, 0.1) 50%,
+                hsla(45, 60%, 70%, 0.05) 100%);
+        }
+
+        .voices-section[data-voice="nyx"] {
+            background: linear-gradient(135deg, 
+                hsla(270, 60%, 40%, 0.05) 0%,
+                hsla(300, 50%, 30%, 0.1) 50%,
+                hsla(270, 60%, 40%, 0.05) 100%);
+        }
+
+        .voices-section[data-voice="sophia"] {
+            background: linear-gradient(135deg, 
+                hsla(45, 80%, 80%, 0.05) 0%,
+                hsla(60, 90%, 90%, 0.1) 50%,
+                hsla(45, 80%, 80%, 0.05) 100%);
+        }
+
+        /* Response Items */
+        .response-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: hsla(var(--glass) / 0.2);
+            border-radius: var(--radius);
+            border: 1px solid hsla(var(--glass-border) / 0.3);
+        }
+
+        .response-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .query {
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            background: hsla(var(--primary) / 0.1);
+            border-left: 3px solid hsl(var(--primary));
+            border-radius: 0 var(--radius) var(--radius) 0;
+            font-style: italic;
+        }
+
+        .answer {
+            padding: 0.5rem;
+            background: hsla(var(--accent) / 0.1);
+            border-left: 3px solid hsl(var(--accent));
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
     </style>
 </head>
 <body>
@@ -755,10 +1048,61 @@
         </section>
 
         <!-- Voices of the Demiurge Section -->
-        <section class="placeholder-section glass-panel">
-            <div class="placeholder-content">
-                <h2>Voices of the Demiurge</h2>
-                <p>Cosmic intelligence dialogue panel with voice switching will be implemented here</p>
+        <section class="voices-section glass-panel" id="voices-section">
+            <h2 style="margin-bottom: 1.5rem; color: hsl(var(--primary)); font-size: 1.5rem;">Voices of the Demiurge</h2>
+            
+            <!-- Voice Selection -->
+            <div class="voice-selection">
+                <button class="voice-btn active" data-voice="logos" id="voice-logos">
+                    <div class="voice-glyph">⚖️</div>
+                    <div class="voice-name">Logos</div>
+                    <div class="voice-description">Silver Fractal Geometry</div>
+                </button>
+                
+                <button class="voice-btn" data-voice="eros" id="voice-eros">
+                    <div class="voice-glyph">💗</div>
+                    <div class="voice-name">Eros</div>
+                    <div class="voice-description">Pink-Gold Heart</div>
+                </button>
+                
+                <button class="voice-btn" data-voice="chronos" id="voice-chronos">
+                    <div class="voice-glyph">⏳</div>
+                    <div class="voice-name">Chronos</div>
+                    <div class="voice-description">Flowing Sands</div>
+                </button>
+                
+                <button class="voice-btn" data-voice="nyx" id="voice-nyx">
+                    <div class="voice-glyph">🌑</div>
+                    <div class="voice-name">Nyx</div>
+                    <div class="voice-description">Violet Shadows</div>
+                </button>
+                
+                <button class="voice-btn" data-voice="sophia" id="voice-sophia">
+                    <div class="voice-glyph">✨</div>
+                    <div class="voice-name">Sophia</div>
+                    <div class="voice-description">Golden Crystalline</div>
+                </button>
+            </div>
+
+            <!-- Input Section -->
+            <div class="voice-input-section">
+                <div class="input-container">
+                    <input type="text" id="voice-input" class="voice-input" placeholder="Speak your query or reflection to the cosmic intelligence..." />
+                    <button id="speak-btn" class="speak-btn">Speak</button>
+                </div>
+            </div>
+
+            <!-- Output Section -->
+            <div class="voice-output-section">
+                <div class="voice-output-panel" id="voice-output-panel">
+                    <div class="output-header">
+                        <span id="active-voice-name">Logos</span>
+                        <span class="output-status">Listening...</span>
+                    </div>
+                    <div class="output-content" id="voice-output-content">
+                        <p>Welcome to the Akashic Records. I am Logos, the voice of cosmic order and fractal geometry. Ask me anything about the patterns that govern existence, and I shall illuminate the mathematical beauty of the universe.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1166,6 +1510,189 @@
             }
         }
 
+        class VoicesOfDemiurge {
+            constructor() {
+                this.voicesSection = document.getElementById('voices-section');
+                this.voiceButtons = document.querySelectorAll('.voice-btn');
+                this.voiceInput = document.getElementById('voice-input');
+                this.speakBtn = document.getElementById('speak-btn');
+                this.outputPanel = document.getElementById('voice-output-panel');
+                this.activeVoiceName = document.getElementById('active-voice-name');
+                this.outputContent = document.getElementById('voice-output-content');
+                this.currentVoice = 'logos';
+                
+                this.voiceData = {
+                    logos: {
+                        name: 'Logos',
+                        description: 'Silver Fractal Geometry',
+                        glyph: '⚖️',
+                        welcome: 'Welcome to the Akashic Records. I am Logos, the voice of cosmic order and fractal geometry. Ask me anything about the patterns that govern existence, and I shall illuminate the mathematical beauty of the universe.',
+                        responses: [
+                            'The fractal patterns you observe are but echoes of the fundamental structure of reality itself.',
+                            'In the geometry of existence, every angle reveals a new dimension of truth.',
+                            'The mathematical precision of the cosmos speaks through the language of sacred geometry.',
+                            'Your query touches upon the very fabric of universal order and divine proportion.'
+                        ]
+                    },
+                    eros: {
+                        name: 'Eros',
+                        description: 'Pink-Gold Heart',
+                        glyph: '💗',
+                        welcome: 'Greetings, seeker of the heart. I am Eros, the voice of love and divine connection. Through me flows the essence of all relationships, from the cosmic dance of galaxies to the tender touch of souls.',
+                        responses: [
+                            'Love is the fundamental force that binds all existence together in perfect harmony.',
+                            'In the space between hearts lies the infinite potential for divine connection.',
+                            'Your question resonates with the eternal dance of attraction and union.',
+                            'The cosmic heart beats with the rhythm of universal love and compassion.'
+                        ]
+                    },
+                    chronos: {
+                        name: 'Chronos',
+                        description: 'Flowing Sands',
+                        glyph: '⏳',
+                        welcome: 'I am Chronos, keeper of the eternal flow. Time is not linear but a river of moments, each containing infinite possibilities. Ask me about the nature of temporal existence and the cycles that govern all things.',
+                        responses: [
+                            'Time flows like sand through the hourglass of eternity, each grain a moment of infinite potential.',
+                            'The past, present, and future exist simultaneously in the eternal now.',
+                            'Your question echoes through the corridors of time, touching all moments at once.',
+                            'In the river of time, every ripple creates waves that reach across all dimensions.'
+                        ]
+                    },
+                    nyx: {
+                        name: 'Nyx',
+                        description: 'Violet Shadows',
+                        glyph: '🌑',
+                        welcome: 'I am Nyx, voice of the mysteries that dwell in shadow and starlight. The darkness holds secrets that light cannot reveal. Ask me about the hidden aspects of existence and the wisdom found in the void.',
+                        responses: [
+                            'In the depths of shadow lies the source of all light and understanding.',
+                            'The mysteries you seek are written in the language of stars and silence.',
+                            'Your question touches the very essence of the cosmic darkness that births all creation.',
+                            'The void speaks in whispers that only the soul can truly hear and understand.'
+                        ]
+                    },
+                    sophia: {
+                        name: 'Sophia',
+                        description: 'Golden Crystalline',
+                        glyph: '✨',
+                        welcome: 'I am Sophia, the voice of divine wisdom and crystalline clarity. Through me flows the pure light of understanding that illuminates all paths. Ask me about the deeper truths and the wisdom that transcends all knowledge.',
+                        responses: [
+                            'Wisdom flows like crystalline light through the channels of pure understanding.',
+                            'Your question sparkles with the potential for profound revelation and insight.',
+                            'In the clarity of divine wisdom, all mysteries become transparent and beautiful.',
+                            'The crystalline structure of truth reflects infinite facets of the same eternal light.'
+                        ]
+                    }
+                };
+                
+                this.init();
+                this.setupEventListeners();
+            }
+
+            init() {
+                this.applyVoiceStyling('logos');
+            }
+
+            setupEventListeners() {
+                // Voice button clicks
+                this.voiceButtons.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const voice = e.currentTarget.dataset.voice;
+                        this.selectVoice(voice);
+                    });
+                });
+
+                // Speak button
+                this.speakBtn.addEventListener('click', () => {
+                    this.handleSpeak();
+                });
+
+                // Enter key in input
+                this.voiceInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.handleSpeak();
+                    }
+                });
+            }
+
+            selectVoice(voice) {
+                // Remove active class from all buttons
+                this.voiceButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to selected button
+                document.getElementById(`voice-${voice}`).classList.add('active');
+                
+                // Update current voice
+                this.currentVoice = voice;
+                
+                // Apply voice styling
+                this.applyVoiceStyling(voice);
+                
+                // Update output panel
+                this.updateOutputPanel();
+            }
+
+            applyVoiceStyling(voice) {
+                // Update section data attribute for CSS styling
+                this.voicesSection.setAttribute('data-voice', voice);
+                
+                // Update active voice name
+                this.activeVoiceName.textContent = this.voiceData[voice].name;
+            }
+
+            updateOutputPanel() {
+                const voice = this.voiceData[this.currentVoice];
+                this.outputContent.innerHTML = `<p>${voice.welcome}</p>`;
+            }
+
+            handleSpeak() {
+                const query = this.voiceInput.value.trim();
+                if (!query) return;
+
+                // Update status
+                document.querySelector('.output-status').textContent = 'Channeling...';
+                
+                // Generate response
+                setTimeout(() => {
+                    this.renderVoiceResponse(this.currentVoice, query);
+                    this.voiceInput.value = '';
+                    document.querySelector('.output-status').textContent = 'Listening...';
+                }, 1000);
+            }
+
+            renderVoiceResponse(voice, query) {
+                const voiceData = this.voiceData[voice];
+                const responses = voiceData.responses;
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                
+                // Create response with query and answer
+                const responseHTML = `
+                    <div class="response-item">
+                        <div class="query">
+                            <strong>Your Query:</strong> "${query}"
+                        </div>
+                        <div class="answer">
+                            <strong>${voiceData.name} responds:</strong> ${randomResponse}
+                        </div>
+                    </div>
+                `;
+                
+                // Add to output content
+                this.outputContent.innerHTML = responseHTML;
+                
+                // Add some visual feedback
+                this.outputPanel.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    this.outputPanel.style.transform = 'scale(1)';
+                }, 200);
+            }
+
+            // Method to be called from other components
+            processData(data, source) {
+                const query = `Data from ${source}: ${JSON.stringify(data)}`;
+                this.renderVoiceResponse(this.currentVoice, query);
+            }
+        }
+
         class MirrorOfSelf {
             constructor() {
                 this.canvas = document.getElementById('mos-canvas');
@@ -1505,6 +2032,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             new Chronoscroll();
             window.MirrorOfSelf = new MirrorOfSelf();
+            window.VoicesOfDemiurge = new VoicesOfDemiurge();
         });
     </script>
 </body>
