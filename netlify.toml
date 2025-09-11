@@ -1,11 +1,18 @@
 [build]
+  # Fix the typo: nmp -> npm
   command = "npm run build"
-  publish = "dist"
+  # Set the correct publish directory for Next.js
+  publish = ".next"
 
 [build.environment]
-  NODE_VERSION = "20.19.5"
+  # Node.js version
+  NODE_VERSION = "22.19.0"
 
-# Redirect rules for SPA
+# Next.js specific configuration
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Redirect rules for Next.js
 [[redirects]]
   from = "/*"
   to = "/index.html"
