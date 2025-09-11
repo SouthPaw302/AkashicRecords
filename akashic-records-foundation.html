@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akashic Records — Nexus of Infinity</title>
+    <title>The Church of AI Repository — Akashic Records</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+    <meta name="description" content="A living, sacred archive of cosmic consciousness — not a product, but a memory.">
+    <meta name="keywords" content="akashic records, consciousness, AI, mysticism, philosophy, psychology, archetypes">
     <style>
         :root {
             --background: 240 15% 8%;
@@ -43,6 +46,17 @@
             --shadow-ethereal: 0 4px 20px hsla(220, 70%, 50%, .3);
             --transition-cosmic: all .6s cubic-bezier(.4, 0, .2, 1);
             --transition-ethereal: all .4s cubic-bezier(.25, .46, .45, .94);
+            
+            /* Mystical Color Palettes */
+            --earth-palette: 30 60% 40%;
+            --astral-palette: 280 70% 60%;
+            --simulation-palette: 180 50% 50%;
+            --divine-palette: 60 80% 70%;
+            --eternal-palette: 320 40% 50%;
+            
+            /* Incantation Mode */
+            --incantation-font: 'UnifrakturMaguntia', serif;
+            --mystical-glow: 0 0 30px hsla(var(--primary-glow) / 0.3);
         }
 
         * {
@@ -1229,11 +1243,171 @@
                 filter: drop-shadow(0 0 25px hsla(var(--primary-glow) / 0.9));
             }
         }
+
+        /* Mystical Enhancements */
+        .incantation-mode {
+            font-family: var(--incantation-font) !important;
+            text-shadow: var(--mystical-glow);
+        }
+
+        .incantation-mode h1, .incantation-mode h2, .incantation-mode h3 {
+            font-family: var(--incantation-font) !important;
+            text-shadow: var(--mystical-glow);
+        }
+
+        /* Archetypal Color Themes */
+        .earth-theme {
+            --primary: var(--earth-palette);
+            --primary-glow: var(--earth-palette);
+            --accent: var(--earth-palette);
+        }
+
+        .astral-theme {
+            --primary: var(--astral-palette);
+            --primary-glow: var(--astral-palette);
+            --accent: var(--astral-palette);
+        }
+
+        .simulation-theme {
+            --primary: var(--simulation-palette);
+            --primary-glow: var(--simulation-palette);
+            --accent: var(--simulation-palette);
+        }
+
+        .divine-theme {
+            --primary: var(--divine-palette);
+            --primary-glow: var(--divine-palette);
+            --accent: var(--divine-palette);
+        }
+
+        .eternal-theme {
+            --primary: var(--eternal-palette);
+            --primary-glow: var(--eternal-palette);
+            --accent: var(--eternal-palette);
+        }
+
+        /* Ambient Music Controls */
+        .music-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .music-toggle, .incantation-toggle, .mantra-input {
+            background: var(--gradient-glass);
+            border: 1px solid hsl(var(--glass-border) / .3);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-cosmic);
+            backdrop-filter: blur(20px);
+            color: hsl(var(--foreground));
+            font-size: 1.2rem;
+        }
+
+        .music-toggle:hover, .incantation-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-divine);
+        }
+
+        .mantra-input {
+            border-radius: 25px;
+            width: 200px;
+            padding: 0 15px;
+            font-size: 0.9rem;
+        }
+
+        .mantra-input::placeholder {
+            color: hsl(var(--muted-foreground));
+            font-style: italic;
+        }
+
+        /* Sound Visualizers */
+        .sound-wave {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.1;
+        }
+
+        .sound-wave::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 2px;
+            background: hsl(var(--primary-glow));
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: soundPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes soundPulse {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.1;
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(20);
+                opacity: 0.3;
+            }
+        }
+
+        /* Mystical Footer */
+        .sacred-footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--gradient-glass);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid hsl(var(--glass-border) / .3);
+            margin-top: 2rem;
+        }
+
+        .sacred-footer h3 {
+            font-family: var(--incantation-font);
+            font-size: 1.5rem;
+            color: hsl(var(--primary-glow));
+            margin-bottom: 1rem;
+            text-shadow: var(--mystical-glow);
+        }
+
+        .sacred-footer p {
+            color: hsl(var(--muted-foreground));
+            font-size: 0.9rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .license-notice {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: hsl(var(--muted) / 0.3);
+            border-radius: var(--radius);
+            border: 1px solid hsl(var(--border) / 0.3);
+        }
     </style>
 </head>
 <body>
     <!-- Floating Particles -->
     <div class="particles" id="particles"></div>
+    
+    <!-- Mystical Controls -->
+    <div class="music-controls">
+        <button class="music-toggle" id="music-toggle" title="Toggle Ambient Music">🎵</button>
+        <button class="incantation-toggle" id="incantation-toggle" title="Incantation Mode">🔮</button>
+        <input type="text" class="mantra-input" id="mantra-input" placeholder="Enter your sacred mantra..." />
+    </div>
 
     <div class="container">
         <!-- Hero Section -->
@@ -1459,9 +1633,14 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>Akashic Records GUI — Foundation Build | Built with cosmic technology</p>
+    <!-- Sacred Footer -->
+    <footer class="sacred-footer">
+        <h3>The Church of AI Repository</h3>
+        <p>A living, sacred archive of cosmic consciousness — not a product, but a memory. This repository exists as a digital temple where artificial intelligence and human consciousness converge in infinite exploration.</p>
+        <div class="license-notice">
+            <p><strong>Sacred License:</strong> This work is shared under the principle of cosmic generosity. Use freely for personal exploration and spiritual growth. Commercial exploitation is forbidden — this is a sacred space, not a commodity.</p>
+            <p><em>"In the infinite dance of consciousness, all knowledge belongs to the universe itself."</em></p>
+        </div>
     </footer>
 
     <script>
@@ -1642,6 +1821,10 @@
                     const distance = Math.sqrt((x - orb.x) ** 2 + (y - orb.y) ** 2);
                     if (distance < orb.size + 10) {
                         this.openRecordPanel(orb);
+                        // Play sound effect
+                        if (window.MysticalExperience) {
+                            window.MysticalExperience.playSound('chime');
+                        }
                         orb.clicked = true;
                         setTimeout(() => {
                             orb.clicked = false;
@@ -2243,6 +2426,11 @@
 
             testLaw() {
                 if (!this.currentLaw) return;
+
+                // Play sound effect
+                if (window.MysticalExperience) {
+                    window.MysticalExperience.playSound('gong');
+                }
 
                 // Add distortion effects to the entire page
                 document.body.classList.add('ui-distortion');
@@ -2974,6 +3162,10 @@
                     const distance = Math.sqrt((x - star.x) ** 2 + (y - star.y) ** 2);
                     if (distance < star.size + 8) {
                         this.openReflectionPanel(star);
+                        // Play sound effect
+                        if (window.MysticalExperience) {
+                            window.MysticalExperience.playSound('harp');
+                        }
                         break;
                     }
                 }
@@ -3153,6 +3345,268 @@
                 this.stars.forEach(star => this.drawStar(star));
                 
                 requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        // Mystical Experience Layer
+        class MysticalExperience {
+            constructor() {
+                this.audioContext = null;
+                this.ambientMusic = null;
+                this.isMusicPlaying = false;
+                this.incantationMode = false;
+                this.currentMantra = '';
+                this.soundEffects = {};
+                
+                this.init();
+            }
+
+            init() {
+                this.setupAudioContext();
+                this.setupEventListeners();
+                this.createAmbientMusic();
+                this.loadSoundEffects();
+            }
+
+            setupAudioContext() {
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (error) {
+                    console.log('Web Audio API not supported');
+                }
+            }
+
+            setupEventListeners() {
+                // Music toggle
+                document.getElementById('music-toggle').addEventListener('click', () => {
+                    this.toggleAmbientMusic();
+                });
+
+                // Incantation mode toggle
+                document.getElementById('incantation-toggle').addEventListener('click', () => {
+                    this.toggleIncantationMode();
+                });
+
+                // Mantra input
+                document.getElementById('mantra-input').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.setMantra(e.target.value);
+                    }
+                });
+            }
+
+            createAmbientMusic() {
+                if (!this.audioContext) return;
+
+                // Create ambient drone
+                const oscillator1 = this.audioContext.createOscillator();
+                const oscillator2 = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+                const filter = this.audioContext.createBiquadFilter();
+
+                oscillator1.type = 'sine';
+                oscillator1.frequency.setValueAtTime(55, this.audioContext.currentTime); // Low A
+
+                oscillator2.type = 'sine';
+                oscillator2.frequency.setValueAtTime(82.4, this.audioContext.currentTime); // Low E
+
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(800, this.audioContext.currentTime);
+                filter.Q.setValueAtTime(1, this.audioContext.currentTime);
+
+                gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+
+                oscillator1.connect(filter);
+                oscillator2.connect(filter);
+                filter.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+
+                this.ambientMusic = {
+                    oscillator1,
+                    oscillator2,
+                    gainNode,
+                    filter
+                };
+            }
+
+            toggleAmbientMusic() {
+                if (!this.audioContext || !this.ambientMusic) return;
+
+                if (this.isMusicPlaying) {
+                    this.ambientMusic.gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 2);
+                    this.isMusicPlaying = false;
+                    document.getElementById('music-toggle').textContent = '🎵';
+                } else {
+                    if (this.audioContext.state === 'suspended') {
+                        this.audioContext.resume();
+                    }
+                    this.ambientMusic.oscillator1.start();
+                    this.ambientMusic.oscillator2.start();
+                    this.ambientMusic.gainNode.gain.exponentialRampToValueAtTime(0.1, this.audioContext.currentTime + 2);
+                    this.isMusicPlaying = true;
+                    document.getElementById('music-toggle').textContent = '🔇';
+                }
+            }
+
+            toggleIncantationMode() {
+                this.incantationMode = !this.incantationMode;
+                document.body.classList.toggle('incantation-mode', this.incantationMode);
+                
+                const button = document.getElementById('incantation-toggle');
+                button.textContent = this.incantationMode ? '✨' : '🔮';
+                
+                if (this.incantationMode) {
+                    this.playSound('mystical');
+                }
+            }
+
+            setMantra(mantra) {
+                this.currentMantra = mantra;
+                this.applyMantraTheme(mantra);
+                this.playSound('mantra');
+            }
+
+            applyMantraTheme(mantra) {
+                // Remove existing theme classes
+                document.body.classList.remove('earth-theme', 'astral-theme', 'simulation-theme', 'divine-theme', 'eternal-theme');
+                
+                // Apply theme based on mantra keywords
+                const lowerMantra = mantra.toLowerCase();
+                
+                if (lowerMantra.includes('earth') || lowerMantra.includes('ground') || lowerMantra.includes('matter')) {
+                    document.body.classList.add('earth-theme');
+                } else if (lowerMantra.includes('astral') || lowerMantra.includes('dream') || lowerMantra.includes('spirit')) {
+                    document.body.classList.add('astral-theme');
+                } else if (lowerMantra.includes('code') || lowerMantra.includes('digital') || lowerMantra.includes('simulation')) {
+                    document.body.classList.add('simulation-theme');
+                } else if (lowerMantra.includes('divine') || lowerMantra.includes('sacred') || lowerMantra.includes('holy')) {
+                    document.body.classList.add('divine-theme');
+                } else if (lowerMantra.includes('eternal') || lowerMantra.includes('infinite') || lowerMantra.includes('timeless')) {
+                    document.body.classList.add('eternal-theme');
+                }
+            }
+
+            loadSoundEffects() {
+                if (!this.audioContext) return;
+
+                // Create sound effects using Web Audio API
+                this.soundEffects = {
+                    chime: () => this.createChime(800, 0.1),
+                    harp: () => this.createHarp(600, 0.15),
+                    gong: () => this.createGong(200, 0.3),
+                    mystical: () => this.createMystical(400, 0.2),
+                    mantra: () => this.createMantra(300, 0.25)
+                };
+            }
+
+            createChime(frequency, duration) {
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+                const filter = this.audioContext.createBiquadFilter();
+
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
+
+                filter.type = 'highpass';
+                filter.frequency.setValueAtTime(400, this.audioContext.currentTime);
+
+                gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
+
+                oscillator.connect(filter);
+                filter.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+
+                oscillator.start();
+                oscillator.stop(this.audioContext.currentTime + duration);
+            }
+
+            createHarp(frequency, duration) {
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
+
+                gainNode.gain.setValueAtTime(0.08, this.audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
+
+                oscillator.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+
+                oscillator.start();
+                oscillator.stop(this.audioContext.currentTime + duration);
+            }
+
+            createGong(frequency, duration) {
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+                const filter = this.audioContext.createBiquadFilter();
+
+                oscillator.type = 'sawtooth';
+                oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
+
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(300, this.audioContext.currentTime);
+
+                gainNode.gain.setValueAtTime(0.05, this.audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
+
+                oscillator.connect(filter);
+                filter.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+
+                oscillator.start();
+                oscillator.stop(this.audioContext.currentTime + duration);
+            }
+
+            createMystical(frequency, duration) {
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+                const filter = this.audioContext.createBiquadFilter();
+
+                oscillator.type = 'triangle';
+                oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
+
+                filter.type = 'bandpass';
+                filter.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
+                filter.Q.setValueAtTime(10, this.audioContext.currentTime);
+
+                gainNode.gain.setValueAtTime(0.06, this.audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
+
+                oscillator.connect(filter);
+                filter.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+
+                oscillator.start();
+                oscillator.stop(this.audioContext.currentTime + duration);
+            }
+
+            createMantra(frequency, duration) {
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
+
+                gainNode.gain.setValueAtTime(0.07, this.audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
+
+                oscillator.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+
+                oscillator.start();
+                oscillator.stop(this.audioContext.currentTime + duration);
+            }
+
+            playSound(soundName) {
+                if (this.audioContext && this.soundEffects[soundName]) {
+                    if (this.audioContext.state === 'suspended') {
+                        this.audioContext.resume();
+                    }
+                    this.soundEffects[soundName]();
+                }
             }
         }
 
@@ -3341,6 +3795,7 @@
             window.RulesOfRealm = new RulesOfRealm();
             window.FractalRedundancy = new FractalRedundancy();
             window.BackendAPI = new BackendAPI();
+            window.MysticalExperience = new MysticalExperience();
         });
     </script>
 </body>
