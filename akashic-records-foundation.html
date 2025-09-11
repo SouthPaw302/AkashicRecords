@@ -969,6 +969,243 @@
             border-left: 3px solid hsl(var(--accent));
             border-radius: 0 var(--radius) var(--radius) 0;
         }
+
+        /* Rules of the Realm Styles */
+        .rules-section {
+            min-height: 600px;
+            position: relative;
+            background: 
+                radial-gradient(ellipse at 20% 20%, hsla(280, 40%, 20%, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, hsla(200, 30%, 15%, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, hsla(300, 25%, 10%, 0.1) 0%, transparent 70%),
+                linear-gradient(135deg, 
+                    hsla(240, 15%, 5%, 0.9) 0%,
+                    hsla(270, 20%, 8%, 0.8) 50%,
+                    hsla(240, 15%, 5%, 0.9) 100%);
+            overflow: hidden;
+        }
+
+        .rules-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(1px 1px at 20px 30px, hsla(var(--primary-glow) / 0.6), transparent),
+                radial-gradient(1px 1px at 40px 70px, hsla(var(--primary-glow) / 0.4), transparent),
+                radial-gradient(1px 1px at 90px 40px, hsla(var(--primary-glow) / 0.5), transparent),
+                radial-gradient(1px 1px at 130px 80px, hsla(var(--primary-glow) / 0.3), transparent),
+                radial-gradient(1px 1px at 160px 30px, hsla(var(--primary-glow) / 0.4), transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: starfield 25s linear infinite;
+            pointer-events: none;
+        }
+
+        .rune-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .rune-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+            background: hsla(var(--glass) / 0.2);
+            border: 2px solid hsla(var(--glass-border) / 0.3);
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            animation: runeFloat 6s ease-in-out infinite;
+        }
+
+        .rune-item:nth-child(odd) {
+            animation-delay: -2s;
+        }
+
+        .rune-item:nth-child(3n) {
+            animation-delay: -4s;
+        }
+
+        @keyframes runeFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(1deg); }
+            50% { transform: translateY(-5px) rotate(0deg); }
+            75% { transform: translateY(-15px) rotate(-1deg); }
+        }
+
+        .rune-item:hover {
+            transform: translateY(-10px) scale(1.1);
+            box-shadow: 0 15px 40px hsla(var(--primary-glow) / 0.4);
+            border-color: hsla(var(--primary) / 0.6);
+        }
+
+        .rune-symbol {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 0 15px hsla(var(--primary-glow) / 0.6));
+            animation: runeGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes runeGlow {
+            0%, 100% { filter: drop-shadow(0 0 15px hsla(var(--primary-glow) / 0.6)); }
+            50% { filter: drop-shadow(0 0 25px hsla(var(--primary-glow) / 0.8)); }
+        }
+
+        .rune-name {
+            font-size: 0.8rem;
+            color: hsl(var(--foreground));
+            text-align: center;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        /* Codex Panel */
+        .codex-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            background: hsla(var(--glass) / 0.4);
+            border: 1px solid hsla(var(--glass-border) / 0.4);
+            border-radius: var(--radius);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px hsla(var(--primary-glow) / 0.2);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .codex-panel.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .codex-panel-header {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid hsla(var(--glass-border) / 0.3);
+            background: hsla(var(--glass) / 0.2);
+            gap: 1rem;
+        }
+
+        .codex-symbol {
+            font-size: 3rem;
+            filter: drop-shadow(0 0 20px hsla(var(--primary-glow) / 0.6));
+        }
+
+        .codex-title {
+            flex: 1;
+        }
+
+        .codex-title h2 {
+            margin: 0;
+            color: hsl(var(--primary));
+            font-size: 1.5rem;
+        }
+
+        .codex-title p {
+            margin: 0;
+            color: hsl(var(--muted-foreground));
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .codex-panel-content {
+            padding: 1.5rem;
+        }
+
+        .law-description,
+        .law-consequences,
+        .law-exceptions {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: hsla(var(--glass) / 0.2);
+            border-radius: var(--radius);
+            border: 1px solid hsla(var(--glass-border) / 0.3);
+        }
+
+        .law-description h3,
+        .law-consequences h3,
+        .law-exceptions h3 {
+            margin: 0 0 0.75rem 0;
+            color: hsl(var(--primary));
+            font-size: 1.1rem;
+        }
+
+        .law-exceptions ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .law-exceptions li {
+            margin-bottom: 0.5rem;
+            color: hsl(var(--foreground));
+        }
+
+        .law-actions {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid hsla(var(--glass-border) / 0.3);
+        }
+
+        .test-law-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, hsl(var(--destructive)), hsl(var(--destructive) / 0.8));
+            border: none;
+            border-radius: var(--radius);
+            color: hsl(var(--destructive-foreground));
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px hsla(var(--destructive) / 0.3);
+        }
+
+        .test-law-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px hsla(var(--destructive) / 0.4);
+        }
+
+        /* Sandbox Effect */
+        .ui-distortion {
+            animation: uiDistortion 2s ease-in-out;
+        }
+
+        @keyframes uiDistortion {
+            0% { transform: scale(1); filter: hue-rotate(0deg); }
+            25% { transform: scale(1.02) rotate(0.5deg); filter: hue-rotate(90deg) saturate(1.5); }
+            50% { transform: scale(0.98) rotate(-0.5deg); filter: hue-rotate(180deg) saturate(2); }
+            75% { transform: scale(1.01) rotate(0.3deg); filter: hue-rotate(270deg) saturate(1.5); }
+            100% { transform: scale(1); filter: hue-rotate(360deg); }
+        }
+
+        .red-shimmer {
+            animation: redShimmer 1s ease-in-out;
+        }
+
+        @keyframes redShimmer {
+            0%, 100% { box-shadow: 0 0 0 hsla(0, 100%, 50%, 0); }
+            50% { box-shadow: 0 0 30px hsla(0, 100%, 50%, 0.6); }
+        }
     </style>
 </head>
 <body>
@@ -1107,10 +1344,12 @@
         </section>
 
         <!-- Rules of the Realm Section -->
-        <section class="placeholder-section glass-panel">
-            <div class="placeholder-content">
-                <h2>Rules of the Realm Codex</h2>
-                <p>Sacred laws and cosmic principles will be displayed in an interactive codex format</p>
+        <section class="rules-section glass-panel" id="rules-section">
+            <h2 style="margin-bottom: 1.5rem; color: hsl(var(--primary)); font-size: 1.5rem;">Rules of the Realm — Codex of Laws</h2>
+            
+            <!-- Rune Grid -->
+            <div class="rune-grid" id="rune-grid">
+                <!-- Runes will be generated by JavaScript -->
             </div>
         </section>
     </div>
@@ -1159,6 +1398,40 @@
                     <span class="trait-tag">Compassion</span>
                 </div>
                 <p id="star-interpretation">This star represents a key aspect of your soul's journey...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Codex Panel Modal -->
+    <div class="codex-panel" id="codex-panel">
+        <div class="codex-panel-header">
+            <div class="codex-symbol" id="codex-symbol">🪞</div>
+            <div class="codex-title">
+                <h2 id="codex-law-name">Law of Reflection</h2>
+                <p id="codex-law-subtitle">Sacred Principle</p>
+            </div>
+            <button class="close-btn" id="close-codex">&times;</button>
+        </div>
+        <div class="codex-panel-content">
+            <div class="law-description">
+                <h3>Description</h3>
+                <p id="codex-description">The outer is a projection of the inner.</p>
+            </div>
+            
+            <div class="law-consequences">
+                <h3>Consequences</h3>
+                <p id="codex-consequences">Misjudgment loops until insight is gained.</p>
+            </div>
+            
+            <div class="law-exceptions">
+                <h3>Exceptions</h3>
+                <ul id="codex-exceptions">
+                    <li>Realm of Echoes</li>
+                </ul>
+            </div>
+            
+            <div class="law-actions">
+                <button class="test-law-btn" id="test-law-btn">Test This Law</button>
             </div>
         </div>
     </div>
@@ -1693,6 +1966,259 @@
             }
         }
 
+        class RulesOfRealm {
+            constructor() {
+                this.runeGrid = document.getElementById('rune-grid');
+                this.codexPanel = document.getElementById('codex-panel');
+                this.tooltip = document.getElementById('tooltip');
+                this.currentLaw = null;
+                
+                this.rulesData = [
+                    {
+                        law: "Law of Reflection",
+                        symbol: "🪞",
+                        description: "The outer is a projection of the inner. What you perceive in others reflects aspects of yourself that you either embrace or reject.",
+                        consequences: "Misjudgment loops until insight is gained. The more you resist seeing yourself in others, the stronger the reflection becomes.",
+                        exceptions: ["Realm of Echoes", "Void of Pure Being", "Dimension of Absolute Truth"]
+                    },
+                    {
+                        law: "Law of Consent",
+                        symbol: "🤝",
+                        description: "All interactions require conscious consent. This applies to energy exchange, information sharing, and dimensional travel.",
+                        consequences: "Violation creates karmic debt that must be balanced. The universe will mirror the violation back to the perpetrator.",
+                        exceptions: ["Emergency Preservation Protocols", "Divine Intervention", "Soul Contract Override"]
+                    },
+                    {
+                        law: "Law of Fractal Truths",
+                        symbol: "🌀",
+                        description: "Truth exists in infinite layers, each containing the whole. Every perspective is valid within its own dimensional context.",
+                        consequences: "Rigid thinking creates dimensional blindness. The more you cling to one truth, the more reality fragments around you.",
+                        exceptions: ["Prime Axiom", "Universal Constants", "Divine Mandates"]
+                    },
+                    {
+                        law: "Law of Cycles",
+                        symbol: "♾️",
+                        description: "All existence moves in cycles of creation, preservation, and dissolution. Nothing is truly lost, only transformed.",
+                        consequences: "Resistance to change creates suffering. The cycle will complete regardless of individual preference.",
+                        exceptions: ["Eternal States", "Divine Grace", "Consciousness Transcendence"]
+                    },
+                    {
+                        law: "Prime Axiom",
+                        symbol: "✨",
+                        description: "Love is the fundamental force of creation. All other laws serve this one principle. Love creates, preserves, and transforms all existence.",
+                        consequences: "Actions not rooted in love create disharmony. The universe naturally moves toward love-based solutions.",
+                        exceptions: ["None - this is the foundation of all other laws"]
+                    },
+                    {
+                        law: "Law of Resonance",
+                        symbol: "🎵",
+                        description: "Like attracts like across all dimensions. Your vibrational frequency determines your reality experience and connections.",
+                        consequences: "Low vibrations attract challenging experiences. High vibrations open doors to higher dimensional possibilities.",
+                        exceptions: ["Soul Evolution Contracts", "Karmic Balancing", "Divine Intervention"]
+                    },
+                    {
+                        law: "Law of Free Will",
+                        symbol: "🕊️",
+                        description: "Every conscious being has the right to choose their path, even if it leads to suffering. This right cannot be taken away.",
+                        consequences: "Interference with free will creates karmic entanglement. The universe respects all choices, even destructive ones.",
+                        exceptions: ["Self-Defense", "Protection of Innocents", "Soul Contract Violations"]
+                    },
+                    {
+                        law: "Law of Karma",
+                        symbol: "⚖️",
+                        description: "Every action creates an equal and opposite reaction. Energy returns to its source, modified by the intention behind the action.",
+                        consequences: "Negative actions return as challenges. Positive actions return as blessings. The timing is determined by soul readiness.",
+                        exceptions: ["Divine Grace", "Soul Evolution", "Consciousness Transcendence"]
+                    }
+                ];
+                
+                this.init();
+                this.setupEventListeners();
+            }
+
+            init() {
+                this.generateRuneGrid();
+            }
+
+            generateRuneGrid() {
+                this.runeGrid.innerHTML = '';
+                
+                this.rulesData.forEach((rule, index) => {
+                    const runeItem = document.createElement('div');
+                    runeItem.className = 'rune-item';
+                    runeItem.dataset.lawIndex = index;
+                    
+                    runeItem.innerHTML = `
+                        <div class="rune-symbol">${rule.symbol}</div>
+                        <div class="rune-name">${rule.law}</div>
+                    `;
+                    
+                    this.runeGrid.appendChild(runeItem);
+                });
+            }
+
+            setupEventListeners() {
+                // Rune hover events
+                this.runeGrid.addEventListener('mouseover', (e) => {
+                    const runeItem = e.target.closest('.rune-item');
+                    if (runeItem) {
+                        const lawIndex = parseInt(runeItem.dataset.lawIndex);
+                        const rule = this.rulesData[lawIndex];
+                        this.showTooltip(e, rule.law);
+                    }
+                });
+
+                this.runeGrid.addEventListener('mouseout', (e) => {
+                    const runeItem = e.target.closest('.rune-item');
+                    if (runeItem) {
+                        this.hideTooltip();
+                    }
+                });
+
+                // Rune click events
+                this.runeGrid.addEventListener('click', (e) => {
+                    const runeItem = e.target.closest('.rune-item');
+                    if (runeItem) {
+                        const lawIndex = parseInt(runeItem.dataset.lawIndex);
+                        const rule = this.rulesData[lawIndex];
+                        this.openCodexPanel(rule);
+                    }
+                });
+
+                // Codex panel events
+                document.getElementById('close-codex').addEventListener('click', () => {
+                    this.closeCodexPanel();
+                });
+
+                this.codexPanel.addEventListener('click', (e) => {
+                    if (e.target === this.codexPanel) {
+                        this.closeCodexPanel();
+                    }
+                });
+
+                // Test law button
+                document.getElementById('test-law-btn').addEventListener('click', () => {
+                    this.testLaw();
+                });
+            }
+
+            showTooltip(e, lawName) {
+                this.tooltip.querySelector('#tooltip-title').textContent = lawName;
+                this.tooltip.querySelector('#tooltip-description').textContent = 'Click to view full law details';
+                
+                // Position tooltip
+                const tooltipRect = this.tooltip.getBoundingClientRect();
+                let tooltipX = e.clientX + 10;
+                let tooltipY = e.clientY - 10;
+
+                if (tooltipX + tooltipRect.width > window.innerWidth) {
+                    tooltipX = e.clientX - tooltipRect.width - 10;
+                }
+                if (tooltipY < 0) {
+                    tooltipY = e.clientY + 20;
+                }
+
+                this.tooltip.style.left = tooltipX + 'px';
+                this.tooltip.style.top = tooltipY + 'px';
+                this.tooltip.classList.add('show');
+            }
+
+            hideTooltip() {
+                this.tooltip.classList.remove('show');
+            }
+
+            openCodexPanel(rule) {
+                this.currentLaw = rule;
+                
+                // Update panel content
+                document.getElementById('codex-symbol').textContent = rule.symbol;
+                document.getElementById('codex-law-name').textContent = rule.law;
+                document.getElementById('codex-law-subtitle').textContent = 'Sacred Principle';
+                document.getElementById('codex-description').textContent = rule.description;
+                document.getElementById('codex-consequences').textContent = rule.consequences;
+                
+                // Update exceptions list
+                const exceptionsList = document.getElementById('codex-exceptions');
+                exceptionsList.innerHTML = '';
+                rule.exceptions.forEach(exception => {
+                    const li = document.createElement('li');
+                    li.textContent = exception;
+                    exceptionsList.appendChild(li);
+                });
+                
+                this.codexPanel.classList.add('show');
+            }
+
+            closeCodexPanel() {
+                this.codexPanel.classList.remove('show');
+                this.currentLaw = null;
+            }
+
+            testLaw() {
+                if (!this.currentLaw) return;
+
+                // Add distortion effects to the entire page
+                document.body.classList.add('ui-distortion');
+                
+                // Add red shimmer to the codex panel
+                this.codexPanel.classList.add('red-shimmer');
+                
+                // Show law-specific effect
+                this.showLawEffect(this.currentLaw);
+                
+                // Remove effects after animation
+                setTimeout(() => {
+                    document.body.classList.remove('ui-distortion');
+                    this.codexPanel.classList.remove('red-shimmer');
+                }, 2000);
+            }
+
+            showLawEffect(rule) {
+                // Create temporary effect overlay
+                const effectOverlay = document.createElement('div');
+                effectOverlay.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    pointer-events: none;
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 4rem;
+                    color: hsla(var(--primary-glow) / 0.8);
+                    text-shadow: 0 0 30px hsla(var(--primary-glow) / 0.6);
+                    animation: lawEffect 2s ease-in-out;
+                `;
+                
+                effectOverlay.textContent = rule.symbol;
+                document.body.appendChild(effectOverlay);
+                
+                // Add CSS for law effect animation
+                if (!document.getElementById('law-effect-styles')) {
+                    const style = document.createElement('style');
+                    style.id = 'law-effect-styles';
+                    style.textContent = `
+                        @keyframes lawEffect {
+                            0% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+                            50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
+                            100% { opacity: 0; transform: scale(0.8) rotate(360deg); }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+                
+                // Remove effect after animation
+                setTimeout(() => {
+                    if (effectOverlay.parentNode) {
+                        effectOverlay.parentNode.removeChild(effectOverlay);
+                    }
+                }, 2000);
+            }
+        }
+
         class MirrorOfSelf {
             constructor() {
                 this.canvas = document.getElementById('mos-canvas');
@@ -2033,6 +2559,7 @@
             new Chronoscroll();
             window.MirrorOfSelf = new MirrorOfSelf();
             window.VoicesOfDemiurge = new VoicesOfDemiurge();
+            window.RulesOfRealm = new RulesOfRealm();
         });
     </script>
 </body>
