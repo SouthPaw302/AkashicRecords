@@ -411,6 +411,162 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* Mirror of Self Styles */
+        .mirror-section {
+            min-height: 600px;
+            position: relative;
+            background: 
+                radial-gradient(circle at 30% 70%, hsla(270, 60%, 40%, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, hsla(220, 70%, 50%, 0.1) 0%, transparent 50%);
+        }
+
+        .mirror-canvas {
+            width: 100%;
+            height: 500px;
+            border-radius: var(--radius);
+            cursor: crosshair;
+            background: transparent;
+        }
+
+        .mirror-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .seed-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.75rem 1rem;
+            background: hsl(var(--muted));
+            color: hsl(var(--muted-foreground));
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition-ethereal);
+        }
+
+        .seed-input:focus {
+            outline: none;
+            border-color: hsl(var(--accent));
+            background: hsl(var(--accent) / .1);
+            color: hsl(var(--accent));
+        }
+
+        .bind-btn {
+            padding: 0.75rem 1.5rem;
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition-ethereal);
+        }
+
+        .bind-btn:hover {
+            background: hsl(var(--primary-glow));
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-divine);
+        }
+
+        .constellation-star {
+            position: absolute;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .constellation-star:hover {
+            transform: scale(1.3);
+            filter: brightness(1.8);
+        }
+
+        .constellation-star.trace {
+            animation: trace-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes trace-pulse {
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% { 
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        /* Reflection Panel */
+        .reflection-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--glass-border) / .3);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-cosmic);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .reflection-panel.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .reflection-panel-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid hsl(var(--border));
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .reflection-panel-content {
+            padding: 1.5rem;
+        }
+
+        .star-interpretation {
+            margin-bottom: 1rem;
+        }
+
+        .star-interpretation h3 {
+            color: hsl(var(--primary));
+            margin-bottom: 0.5rem;
+        }
+
+        .star-traits {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .trait-tag {
+            padding: 0.25rem 0.75rem;
+            background: hsl(var(--accent) / .2);
+            color: hsl(var(--accent));
+            border: 1px solid hsl(var(--accent) / .3);
+            border-radius: 1rem;
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 <body>
@@ -442,11 +598,17 @@
         </section>
 
         <!-- Mirror of Self Section -->
-        <section class="placeholder-section glass-panel">
-            <div class="placeholder-content">
-                <h2>Mirror of Self</h2>
-                <p>Personal soul reflection with karmic patterns and lessons will appear here</p>
+        <section class="mirror-section glass-panel">
+            <h2 style="margin-bottom: 1rem; color: hsl(var(--primary)); font-size: 1.5rem;">Mirror of Self — Constellation Avatar</h2>
+            
+            <!-- Seed Controls -->
+            <div class="mirror-controls">
+                <input type="text" id="seed-input" class="seed-input" placeholder="Enter your name or phrase to generate constellation..." />
+                <button id="bind-btn" class="bind-btn">Bind</button>
             </div>
+
+            <!-- Constellation Canvas -->
+            <canvas id="mos-canvas" class="mirror-canvas"></canvas>
         </section>
 
         <!-- Voices of the Demiurge Section -->
@@ -484,6 +646,25 @@
                 <p><strong>Emotion:</strong> <span id="record-emotion"></span></p>
                 <p><strong>Lesson:</strong> <span id="record-lesson"></span></p>
                 <p><strong>Description:</strong> <span id="record-description"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reflection Panel Modal -->
+    <div class="reflection-panel" id="reflection-panel">
+        <div class="reflection-panel-header">
+            <h2 id="reflection-title">Star Reflection</h2>
+            <button class="close-btn" id="close-reflection">&times;</button>
+        </div>
+        <div class="reflection-panel-content">
+            <div class="star-interpretation">
+                <h3 id="star-name">Constellation Node</h3>
+                <div class="star-traits" id="star-traits">
+                    <span class="trait-tag">Seeker</span>
+                    <span class="trait-tag">Flame</span>
+                    <span class="trait-tag">Compassion</span>
+                </div>
+                <p id="star-interpretation">This star represents a key aspect of your soul's journey...</p>
             </div>
         </div>
     </div>
@@ -782,6 +963,7 @@
         // Initialize the Chronoscroll when the page loads
         document.addEventListener('DOMContentLoaded', () => {
             new Chronoscroll();
+            window.MirrorOfSelf = new MirrorOfSelf();
         });
     </script>
 </body>
