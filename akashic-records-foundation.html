@@ -1206,6 +1206,29 @@
             0%, 100% { box-shadow: 0 0 0 hsla(0, 100%, 50%, 0); }
             50% { box-shadow: 0 0 30px hsla(0, 100%, 50%, 0.6); }
         }
+
+        /* Fractal Redundancy Animations */
+        @keyframes cosmicShimmer {
+            0%, 100% { 
+                box-shadow: 0 0 0 hsla(var(--primary-glow) / 0);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 40px hsla(var(--primary-glow) / 0.6);
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes nodePulse {
+            0%, 100% { 
+                transform: scale(1);
+                filter: drop-shadow(0 0 15px hsla(var(--primary-glow) / 0.6));
+            }
+            50% { 
+                transform: scale(1.1);
+                filter: drop-shadow(0 0 25px hsla(var(--primary-glow) / 0.9));
+            }
+        }
     </style>
 </head>
 <body>
@@ -2219,6 +2242,521 @@
             }
         }
 
+        // Fractal Redundancy Layer - Infinite Connections System
+        class FractalRedundancy {
+            constructor() {
+                this.linkMap = new Map();
+                this.echoOrbs = [];
+                this.ghostNodes = [];
+                this.connectionCount = 0;
+                
+                this.init();
+            }
+
+            init() {
+                // Wait for all modules to be initialized
+                setTimeout(() => {
+                    this.setupFractalConnections();
+                }, 1000);
+            }
+
+            setupFractalConnections() {
+                // Override existing methods to add fractal behavior
+                this.enhanceChronoscroll();
+                this.enhanceMirrorOfSelf();
+                this.enhanceVoices();
+                this.enhanceRules();
+            }
+
+            enhanceChronoscroll() {
+                if (!window.Chronoscroll) return;
+                
+                // Store original methods
+                const originalOpenRecordPanel = window.Chronoscroll.prototype.openRecordPanel;
+                const originalDrawOrb = window.Chronoscroll.prototype.drawOrb;
+                
+                // Override openRecordPanel to add fractal behavior
+                window.Chronoscroll.prototype.openRecordPanel = function(orb) {
+                    originalOpenRecordPanel.call(this, orb);
+                    if (window.FractalRedundancy) {
+                        window.FractalRedundancy.whenChronoOrbOpened(orb);
+                    }
+                };
+
+                // Override drawOrb to handle echo orbs
+                window.Chronoscroll.prototype.drawOrb = function(orb) {
+                    if (orb.isEcho) {
+                        this.drawEchoOrb(orb);
+                    } else {
+                        originalDrawOrb.call(this, orb);
+                    }
+                };
+
+                // Add echo orb drawing method
+                window.Chronoscroll.prototype.drawEchoOrb = function(orb) {
+                    const ctx = this.ctx;
+                    
+                    // Fade out over time
+                    const fadeAlpha = Math.max(0, 1 - (Date.now() - orb.createdAt) / 5000);
+                    if (fadeAlpha <= 0) {
+                        orb.shouldRemove = true;
+                        return;
+                    }
+                    
+                    // Draw echo orb with reduced opacity
+                    const glowGradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.size * 2);
+                    glowGradient.addColorStop(0, orb.color + Math.floor(fadeAlpha * 40).toString(16).padStart(2, '0'));
+                    glowGradient.addColorStop(0.5, orb.color + Math.floor(fadeAlpha * 20).toString(16).padStart(2, '0'));
+                    glowGradient.addColorStop(1, orb.color + '00');
+                    
+                    ctx.fillStyle = glowGradient;
+                    ctx.beginPath();
+                    ctx.arc(orb.x, orb.y, orb.size * 2, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Main echo body
+                    const bodyGradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.size);
+                    bodyGradient.addColorStop(0, orb.color + Math.floor(fadeAlpha * 255).toString(16).padStart(2, '0'));
+                    bodyGradient.addColorStop(1, orb.color + Math.floor(fadeAlpha * 128).toString(16).padStart(2, '0'));
+                    
+                    ctx.fillStyle = bodyGradient;
+                    ctx.beginPath();
+                    ctx.arc(orb.x, orb.y, orb.size, 0, Math.PI * 2);
+                    ctx.fill();
+                };
+            }
+
+            enhanceMirrorOfSelf() {
+                if (!window.MirrorOfSelf) return;
+                
+                // Store original methods
+                const originalOpenReflectionPanel = window.MirrorOfSelf.prototype.openReflectionPanel;
+                const originalDrawStar = window.MirrorOfSelf.prototype.drawStar;
+                
+                // Override openReflectionPanel to add fractal behavior
+                window.MirrorOfSelf.prototype.openReflectionPanel = function(star) {
+                    originalOpenReflectionPanel.call(this, star);
+                    if (window.FractalRedundancy) {
+                        window.FractalRedundancy.whenConstellationNodeClicked(star);
+                    }
+                };
+
+                // Override drawStar to handle ghost nodes
+                window.MirrorOfSelf.prototype.drawStar = function(star) {
+                    if (star.isGhost) {
+                        this.drawGhostStar(star);
+                    } else {
+                        originalDrawStar.call(this, star);
+                    }
+                };
+
+                // Add ghost star drawing method
+                window.MirrorOfSelf.prototype.drawGhostStar = function(star) {
+                    const ctx = this.ctx;
+                    
+                    // Fade out over time
+                    const fadeAlpha = Math.max(0, 1 - (Date.now() - star.createdAt) / 8000);
+                    if (fadeAlpha <= 0) {
+                        star.shouldRemove = true;
+                        return;
+                    }
+                    
+                    // Draw ghost star with reduced opacity and pulsing
+                    const pulseScale = 1 + Math.sin(Date.now() * 0.003) * 0.2;
+                    
+                    const glowGradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.size * 3);
+                    glowGradient.addColorStop(0, star.color + Math.floor(fadeAlpha * 30).toString(16).padStart(2, '0'));
+                    glowGradient.addColorStop(1, star.color + '00');
+                    
+                    ctx.fillStyle = glowGradient;
+                    ctx.beginPath();
+                    ctx.arc(star.x, star.y, star.size * 3 * pulseScale, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Main ghost body
+                    const bodyGradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.size);
+                    bodyGradient.addColorStop(0, star.color + Math.floor(fadeAlpha * 180).toString(16).padStart(2, '0'));
+                    bodyGradient.addColorStop(1, star.color + Math.floor(fadeAlpha * 90).toString(16).padStart(2, '0'));
+                    
+                    ctx.fillStyle = bodyGradient;
+                    ctx.beginPath();
+                    ctx.arc(star.x, star.y, star.size * pulseScale, 0, Math.PI * 2);
+                    ctx.fill();
+                };
+            }
+
+            enhanceVoices() {
+                if (!window.VoicesOfDemiurge) return;
+                
+                // Store original method
+                const originalRenderVoiceResponse = window.VoicesOfDemiurge.prototype.renderVoiceResponse;
+                
+                // Override renderVoiceResponse to add fractal behavior
+                window.VoicesOfDemiurge.prototype.renderVoiceResponse = function(voice, query) {
+                    originalRenderVoiceResponse.call(this, voice, query);
+                    if (window.FractalRedundancy) {
+                        window.FractalRedundancy.whenVoiceResponds(voice, query);
+                    }
+                };
+            }
+
+            enhanceRules() {
+                if (!window.RulesOfRealm) return;
+                
+                // Store original method
+                const originalOpenCodexPanel = window.RulesOfRealm.prototype.openCodexPanel;
+                
+                // Override openCodexPanel to add fractal behavior
+                window.RulesOfRealm.prototype.openCodexPanel = function(rule) {
+                    originalOpenCodexPanel.call(this, rule);
+                    if (window.FractalRedundancy) {
+                        window.FractalRedundancy.whenRuleViewed(rule);
+                    }
+                };
+            }
+
+            // Fractal trigger methods
+            whenChronoOrbOpened(orb) {
+                console.log('Fractal: Chronoscroll orb opened', orb.title);
+                
+                // 1. Add trace to Mirror of Self
+                if (window.MirrorOfSelf) {
+                    const mirrorInstance = Object.values(window).find(obj => obj instanceof window.MirrorOfSelf);
+                    if (mirrorInstance) {
+                        mirrorInstance.addTrace(orb.title);
+                    }
+                    this.addVisualFeedback('mirror', 'trace');
+                }
+                
+                // 2. Send to Voices for interpretation
+                if (window.VoicesOfDemiurge) {
+                    const interpretation = this.generateOrbInterpretation(orb);
+                    const voicesInstance = Object.values(window).find(obj => obj instanceof window.VoicesOfDemiurge);
+                    if (voicesInstance) {
+                        voicesInstance.renderVoiceResponse(voicesInstance.currentVoice, interpretation);
+                    }
+                }
+                
+                // 3. Highlight related rule
+                this.highlightRelatedRule(orb);
+                
+                // 4. Create echo orb
+                this.createEchoOrb(orb);
+            }
+
+            whenConstellationNodeClicked(star) {
+                console.log('Fractal: Constellation node clicked', star.archetype);
+                
+                // 1. Spawn orb in Chronoscroll
+                if (window.Chronoscroll) {
+                    const chronoInstance = Object.values(window).find(obj => obj instanceof window.Chronoscroll);
+                    if (chronoInstance) {
+                        this.spawnOrbFromNode(star, chronoInstance);
+                    }
+                }
+                
+                // 2. Call Voice for reflection
+                if (window.VoicesOfDemiurge) {
+                    const reflection = this.generateNodeReflection(star);
+                    const voicesInstance = Object.values(window).find(obj => obj instanceof window.VoicesOfDemiurge);
+                    if (voicesInstance) {
+                        voicesInstance.renderVoiceResponse(voicesInstance.currentVoice, reflection);
+                    }
+                }
+                
+                // 3. Add visual feedback
+                this.addVisualFeedback('chronoscroll', 'spawn');
+            }
+
+            whenVoiceResponds(voice, text) {
+                console.log('Fractal: Voice responded', voice, text);
+                
+                // 1. Highlight relevant rule based on keywords
+                this.highlightRuleByKeywords(text);
+                
+                // 2. Pulse constellation nodes with matching archetype
+                this.pulseMatchingNodes(text);
+                
+                // 3. Add visual feedback
+                this.addVisualFeedback('rules', 'highlight');
+            }
+
+            whenRuleViewed(rule) {
+                console.log('Fractal: Rule viewed', rule.law);
+                
+                // 1. Spawn echo orb in Chronoscroll
+                this.createEchoOrbFromRule(rule);
+                
+                // 2. Add ghost node in Mirror of Self
+                this.createGhostNodeFromRule(rule);
+                
+                // 3. Add visual feedback
+                this.addVisualFeedback('mirror', 'ghost');
+            }
+
+            // Helper methods
+            generateOrbInterpretation(orb) {
+                const interpretations = [
+                    `The ${orb.type} "${orb.title}" speaks of ancient wisdom and cosmic patterns.`,
+                    `This ${orb.type.toLowerCase()} reveals hidden truths about ${orb.emotion.toLowerCase()} and ${orb.lesson.toLowerCase()}.`,
+                    `The ${orb.type} "${orb.title}" carries echoes from the ${orb.realm} realm across ${orb.dimension} dimensions.`,
+                    `In this ${orb.type.toLowerCase()}, I sense the eternal dance of ${orb.emotion.toLowerCase()} and the lesson of ${orb.lesson.toLowerCase()}.`
+                ];
+                return interpretations[Math.floor(Math.random() * interpretations.length)];
+            }
+
+            generateNodeReflection(star) {
+                const reflections = [
+                    `The ${star.archetype} archetype with ${star.element} essence embodies ${star.virtue.toLowerCase()}.`,
+                    `This constellation node reveals your ${star.archetype.toLowerCase()} nature through ${star.element.toLowerCase()} energy.`,
+                    `The ${star.archetype} star pulses with ${star.virtue.toLowerCase()}, calling to your ${star.element.toLowerCase()} soul.`,
+                    `In this ${star.archetype.toLowerCase()} node, I see the reflection of your ${star.virtue.toLowerCase()} journey.`
+                ];
+                return reflections[Math.floor(Math.random() * reflections.length)];
+            }
+
+            highlightRelatedRule(orb) {
+                const rulesInstance = Object.values(window).find(obj => obj instanceof window.RulesOfRealm);
+                if (!rulesInstance) return;
+                
+                const keywords = orb.title.toLowerCase().split(' ');
+                const rules = rulesInstance.rulesData;
+                
+                // Find rule with matching keywords
+                const relatedRule = rules.find(rule => 
+                    keywords.some(keyword => 
+                        rule.law.toLowerCase().includes(keyword) ||
+                        rule.description.toLowerCase().includes(keyword)
+                    )
+                );
+                
+                if (relatedRule) {
+                    this.highlightRuleRune(relatedRule);
+                }
+            }
+
+            highlightRuleByKeywords(text) {
+                const rulesInstance = Object.values(window).find(obj => obj instanceof window.RulesOfRealm);
+                if (!rulesInstance) return;
+                
+                const keywords = text.toLowerCase().split(' ');
+                const rules = rulesInstance.rulesData;
+                
+                // Find rule with matching keywords
+                const relatedRule = rules.find(rule => 
+                    keywords.some(keyword => 
+                        rule.law.toLowerCase().includes(keyword) ||
+                        rule.description.toLowerCase().includes(keyword) ||
+                        rule.consequences.toLowerCase().includes(keyword)
+                    )
+                );
+                
+                if (relatedRule) {
+                    this.highlightRuleRune(relatedRule);
+                }
+            }
+
+            highlightRuleRune(rule) {
+                const runeItems = document.querySelectorAll('.rune-item');
+                runeItems.forEach(item => {
+                    if (item.textContent.includes(rule.law)) {
+                        item.style.animation = 'runeGlow 1s ease-in-out 3';
+                        item.style.borderColor = 'hsl(var(--primary))';
+                        item.style.boxShadow = '0 0 30px hsla(var(--primary-glow) / 0.8)';
+                        
+                        setTimeout(() => {
+                            item.style.animation = '';
+                            item.style.borderColor = '';
+                            item.style.boxShadow = '';
+                        }, 3000);
+                    }
+                });
+            }
+
+            pulseMatchingNodes(text) {
+                const mirror = Object.values(window).find(obj => obj instanceof window.MirrorOfSelf);
+                if (!mirror) return;
+                
+                const keywords = text.toLowerCase().split(' ');
+                const stars = mirror.stars;
+                
+                stars.forEach(star => {
+                    if (keywords.some(keyword => 
+                        star.archetype.toLowerCase().includes(keyword) ||
+                        star.element.toLowerCase().includes(keyword) ||
+                        star.virtue.toLowerCase().includes(keyword)
+                    )) {
+                        star.pulseEffect = true;
+                        setTimeout(() => {
+                            star.pulseEffect = false;
+                        }, 2000);
+                    }
+                });
+            }
+
+            createEchoOrb(originalOrb) {
+                const chronoscroll = Object.values(window).find(obj => obj instanceof window.Chronoscroll);
+                if (!chronoscroll) return;
+                
+                const canvas = chronoscroll.canvas;
+                
+                const echoOrb = {
+                    x: Math.random() * (canvas.width - 20) + 10,
+                    y: Math.random() * (canvas.height - 20) + 10,
+                    size: originalOrb.size * 0.7,
+                    color: originalOrb.color,
+                    type: originalOrb.type + ' Echo',
+                    title: originalOrb.title + ' Echo',
+                    isEcho: true,
+                    createdAt: Date.now(),
+                    shouldRemove: false
+                };
+                
+                chronoscroll.orbs.push(echoOrb);
+                this.echoOrbs.push(echoOrb);
+                
+                // Clean up old echo orbs
+                this.cleanupEchoOrbs();
+            }
+
+            createEchoOrbFromRule(rule) {
+                const chronoscroll = Object.values(window).find(obj => obj instanceof window.Chronoscroll);
+                if (!chronoscroll) return;
+                
+                const canvas = chronoscroll.canvas;
+                
+                const echoOrb = {
+                    x: Math.random() * (canvas.width - 20) + 10,
+                    y: Math.random() * (canvas.height - 20) + 10,
+                    size: 6 + Math.random() * 4,
+                    color: 'hsl(270, 60%, 50%)',
+                    type: 'Rule Echo',
+                    title: rule.law + ' Echo',
+                    isEcho: true,
+                    createdAt: Date.now(),
+                    shouldRemove: false
+                };
+                
+                chronoscroll.orbs.push(echoOrb);
+                this.echoOrbs.push(echoOrb);
+            }
+
+            spawnOrbFromNode(star, chronoscroll) {
+                if (!chronoscroll) return;
+                
+                const canvas = chronoscroll.canvas;
+                
+                const newOrb = {
+                    x: Math.random() * (canvas.width - 20) + 10,
+                    y: Math.random() * (canvas.height - 20) + 10,
+                    size: 5 + Math.random() * 3,
+                    color: star.color,
+                    type: 'Constellation Echo',
+                    title: `${star.archetype} • ${star.element}`,
+                    description: `Echo from constellation node`,
+                    date: 'Present Moment',
+                    emotion: star.virtue,
+                    lesson: `The ${star.archetype} archetype teaches us about ${star.virtue.toLowerCase()}`,
+                    realm: 'Astral',
+                    epoch: 'Eternal',
+                    dimension: '5D',
+                    pulsePhase: Math.random() * Math.PI * 2,
+                    pulseSpeed: 0.02 + Math.random() * 0.03,
+                    glowIntensity: 0.5 + Math.random() * 0.5,
+                    sparkPhase: Math.random() * Math.PI * 2,
+                    sparkSpeed: 0.05 + Math.random() * 0.05
+                };
+                
+                chronoscroll.orbs.push(newOrb);
+            }
+
+            createGhostNodeFromRule(rule) {
+                const mirror = Object.values(window).find(obj => obj instanceof window.MirrorOfSelf);
+                if (!mirror) return;
+                
+                const canvas = mirror.canvas;
+                const centerX = canvas.width / 2;
+                const centerY = canvas.height / 2;
+                
+                const ghostNode = {
+                    x: centerX + (Math.random() - 0.5) * 100,
+                    y: centerY + (Math.random() - 0.5) * 100,
+                    size: 2 + Math.random() * 2,
+                    color: 'hsl(270, 60%, 40%)',
+                    archetype: 'Rule Echo',
+                    element: 'Ether',
+                    virtue: 'Wisdom',
+                    isGhost: true,
+                    createdAt: Date.now(),
+                    shouldRemove: false,
+                    symbol: rule.symbol
+                };
+                
+                mirror.stars.push(ghostNode);
+                this.ghostNodes.push(ghostNode);
+                
+                // Clean up old ghost nodes
+                this.cleanupGhostNodes();
+            }
+
+            cleanupEchoOrbs() {
+                const chronoscroll = Object.values(window).find(obj => obj instanceof window.Chronoscroll);
+                if (!chronoscroll) return;
+                
+                chronoscroll.orbs = chronoscroll.orbs.filter(orb => {
+                    if (orb.isEcho && orb.shouldRemove) {
+                        return false;
+                    }
+                    return true;
+                });
+                
+                this.echoOrbs = this.echoOrbs.filter(orb => !orb.shouldRemove);
+            }
+
+            cleanupGhostNodes() {
+                const mirror = Object.values(window).find(obj => obj instanceof window.MirrorOfSelf);
+                if (!mirror) return;
+                
+                mirror.stars = mirror.stars.filter(star => {
+                    if (star.isGhost && star.shouldRemove) {
+                        return false;
+                    }
+                    return true;
+                });
+                
+                this.ghostNodes = this.ghostNodes.filter(node => !node.shouldRemove);
+            }
+
+            addVisualFeedback(module, type) {
+                const effects = {
+                    'mirror': () => {
+                        const section = document.querySelector('.mirror-section');
+                        section.style.animation = 'cosmicShimmer 1s ease-in-out';
+                    },
+                    'chronoscroll': () => {
+                        const section = document.querySelector('.chronoscroll-section');
+                        section.style.animation = 'cosmicShimmer 1s ease-in-out';
+                    },
+                    'voices': () => {
+                        const section = document.querySelector('.voices-section');
+                        section.style.animation = 'cosmicShimmer 1s ease-in-out';
+                    },
+                    'rules': () => {
+                        const section = document.querySelector('.rules-section');
+                        section.style.animation = 'cosmicShimmer 1s ease-in-out';
+                    }
+                };
+                
+                if (effects[module]) {
+                    effects[module]();
+                    setTimeout(() => {
+                        const section = document.querySelector(`.${module}-section`);
+                        if (section) section.style.animation = '';
+                    }, 1000);
+                }
+            }
+        }
+
         class MirrorOfSelf {
             constructor() {
                 this.canvas = document.getElementById('mos-canvas');
@@ -2560,6 +3098,7 @@
             window.MirrorOfSelf = new MirrorOfSelf();
             window.VoicesOfDemiurge = new VoicesOfDemiurge();
             window.RulesOfRealm = new RulesOfRealm();
+            window.FractalRedundancy = new FractalRedundancy();
         });
     </script>
 </body>
