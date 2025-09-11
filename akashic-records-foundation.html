@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akashic Records — Nexus of Infinity</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background: 240 15% 8%;
+            --foreground: 45 100% 95%;
+            --card: 240 20% 12%;
+            --card-foreground: 45 90% 92%;
+            --glass: 240 30% 15%;
+            --glass-border: 270 50% 35%;
+            --popover: 240 25% 10%;
+            --popover-foreground: 45 85% 90%;
+            --primary: 45 85% 65%;
+            --primary-foreground: 240 20% 12%;
+            --primary-glow: 45 100% 75%;
+            --secondary: 270 45% 25%;
+            --secondary-foreground: 45 90% 92%;
+            --secondary-glow: 270 60% 40%;
+            --muted: 240 15% 18%;
+            --muted-foreground: 240 10% 65%;
+            --accent: 220 70% 50%;
+            --accent-foreground: 45 100% 95%;
+            --accent-glow: 220 80% 65%;
+            --destructive: 0 75% 55%;
+            --destructive-foreground: 45 100% 95%;
+            --border: 240 20% 25%;
+            --input: 240 25% 15%;
+            --ring: 45 85% 65%;
+            --radius: 1rem;
+            --gradient-cosmic: linear-gradient(135deg, hsl(240 30% 15%), hsl(270 40% 20%), hsl(220 50% 25%));
+            --gradient-aurora: linear-gradient(90deg, hsl(270 60% 40%), hsl(220 70% 50%), hsl(180 60% 45%), hsl(270 60% 40%));
+            --gradient-nebula: linear-gradient(45deg, hsl(45 85% 65%), hsl(270 60% 40%), hsl(220 70% 50%));
+            --gradient-glass: linear-gradient(135deg, hsla(240, 30%, 25%, .8), hsla(270, 40%, 20%, .6));
+            --shadow-cosmic: 0 8px 32px hsla(270, 60%, 40%, .3);
+            --shadow-divine: 0 0 30px hsla(45, 85%, 65%, .4);
+            --shadow-ethereal: 0 4px 20px hsla(220, 70%, 50%, .3);
+            --transition-cosmic: all .6s cubic-bezier(.4, 0, .2, 1);
+            --transition-ethereal: all .4s cubic-bezier(.25, .46, .45, .94);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--gradient-cosmic);
+            font-family: 'Cormorant Garamond', serif;
+            color: hsl(var(--foreground));
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Cosmic Background Effects */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, hsla(270, 60%, 40%, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, hsla(220, 70%, 50%, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, hsla(45, 85%, 65%, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: hsl(var(--primary-glow));
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Glass Panel Base */
+        .glass-panel {
+            background: var(--gradient-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid hsl(var(--glass-border) / .3);
+            box-shadow: var(--shadow-cosmic);
+            border-radius: var(--radius);
+        }
+
+        /* Divine Glow Effect */
+        .divine-glow {
+            box-shadow: var(--shadow-divine);
+            transition: var(--transition-ethereal);
+        }
+
+        .divine-glow:hover {
+            box-shadow: 0 0 40px hsla(var(--primary-glow) / .6);
+            transform: translateY(-2px);
+        }
+
+        /* Cosmic Shimmer Animation */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .cosmic-shimmer {
+            background: linear-gradient(90deg, transparent, hsla(var(--primary-glow) / .4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+
+        /* Aurora Pulse Animation */
+        @keyframes aurora-pulse {
+            0%, 100% { opacity: .6; }
+            50% { opacity: 1; }
+        }
+
+        .aurora-pulse {
+            animation: aurora-pulse 4s ease-in-out infinite;
+        }
+
+        /* Layout Structure */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            margin: 2rem 0;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            background: var(--gradient-nebula);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px hsla(var(--primary-glow) / .5);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: hsl(var(--muted-foreground));
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Chronoscroll Section */
+        .chronoscroll-section {
+            min-height: 600px;
+            position: relative;
+        }
+
+        .chronoscroll-canvas {
+            width: 100%;
+            height: 500px;
+            border-radius: var(--radius);
+            cursor: crosshair;
+        }
+
+        /* Memory Orb Styles */
+        .memory-orb {
+            position: absolute;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .memory-orb:hover {
+            transform: scale(1.2);
+            filter: brightness(1.5);
+        }
+
+        .memory-orb.clicked {
+            animation: cosmic-violation 0.5s ease-in-out infinite;
+        }
+
+        @keyframes cosmic-violation {
+            0%, 100% { filter: hue-rotate(0deg) brightness(1); }
+            25% { filter: hue-rotate(15deg) brightness(1.2) saturate(1.5); }
+            50% { filter: hue-rotate(-15deg) brightness(0.8) saturate(0.5); }
+            75% { filter: hue-rotate(10deg) brightness(1.1) saturate(1.2); }
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: absolute;
+            background: hsl(var(--card));
+            color: hsl(var(--card-foreground));
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            box-shadow: var(--shadow-ethereal);
+            border: 1px solid hsl(var(--glass-border) / .3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.2s ease;
+        }
+
+        .tooltip.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tooltip h3 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: hsl(var(--primary));
+        }
+
+        /* Record Panel Modal */
+        .record-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--glass-border) / .3);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-cosmic);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .record-panel.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .record-panel-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid hsl(var(--border));
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .record-panel-content {
+            padding: 1.5rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: hsl(var(--muted-foreground));
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            transition: var(--transition-ethereal);
+        }
+
+        .close-btn:hover {
+            color: hsl(var(--foreground));
+            background: hsl(var(--muted) / .5);
+        }
+
+        /* Placeholder Sections */
+        .placeholder-section {
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .placeholder-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: hsl(var(--primary));
+        }
+
+        .placeholder-content p {
+            font-size: 1.125rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Filter Controls */
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: hsl(var(--muted));
+            color: hsl(var(--muted-foreground));
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition-ethereal);
+            font-family: inherit;
+        }
+
+        .filter-btn:hover {
+            background: hsl(var(--accent) / .1);
+            color: hsl(var(--accent));
+            border-color: hsl(var(--accent) / .3);
+        }
+
+        .filter-btn.active {
+            background: hsl(var(--accent));
+            color: hsl(var(--accent-foreground));
+            border-color: hsl(var(--accent));
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid hsl(var(--border));
+            color: hsl(var(--muted-foreground));
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .filter-controls {
+                justify-content: center;
+            }
+            
+            .record-panel {
+                width: 95%;
+                margin: 1rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid hsl(var(--muted));
+            border-radius: 50%;
+            border-top-color: hsl(var(--primary));
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Akashic Records — Nexus of Infinity</h1>
+            <p>Access the cosmic database of all events, thoughts, and experiences across time and space</p>
+        </section>
+
+        <!-- Chronoscroll Section -->
+        <section class="chronoscroll-section glass-panel">
+            <h2 style="margin-bottom: 1rem; color: hsl(var(--primary)); font-size: 1.5rem;">Chronoscroll — Timeline of Records</h2>
+            
+            <!-- Filter Controls -->
+            <div class="filter-controls">
+                <button class="filter-btn active" data-realm="all">All Realms</button>
+                <button class="filter-btn" data-realm="earth">Earth</button>
+                <button class="filter-btn" data-realm="astral">Astral</button>
+                <button class="filter-btn" data-realm="etheric">Etheric</button>
+                <button class="filter-btn" data-realm="simulation">Simulation</button>
+            </div>
+
+            <!-- Canvas for Memory Orbs -->
+            <canvas id="chronoscroll-canvas" class="chronoscroll-canvas"></canvas>
+        </section>
+
+        <!-- Mirror of Self Section -->
+        <section class="placeholder-section glass-panel">
+            <div class="placeholder-content">
+                <h2>Mirror of Self</h2>
+                <p>Personal soul reflection with karmic patterns and lessons will appear here</p>
+            </div>
+        </section>
+
+        <!-- Voices of the Demiurge Section -->
+        <section class="placeholder-section glass-panel">
+            <div class="placeholder-content">
+                <h2>Voices of the Demiurge</h2>
+                <p>Cosmic intelligence dialogue panel with voice switching will be implemented here</p>
+            </div>
+        </section>
+
+        <!-- Rules of the Realm Section -->
+        <section class="placeholder-section glass-panel">
+            <div class="placeholder-content">
+                <h2>Rules of the Realm Codex</h2>
+                <p>Sacred laws and cosmic principles will be displayed in an interactive codex format</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Tooltip -->
+    <div class="tooltip" id="tooltip">
+        <h3 id="tooltip-title"></h3>
+        <p id="tooltip-description"></p>
+    </div>
+
+    <!-- Record Panel Modal -->
+    <div class="record-panel" id="record-panel">
+        <div class="record-panel-header">
+            <h2 id="record-title">Memory Record</h2>
+            <button class="close-btn" id="close-panel">&times;</button>
+        </div>
+        <div class="record-panel-content">
+            <div id="record-content">
+                <p><strong>Date:</strong> <span id="record-date"></span></p>
+                <p><strong>Emotion:</strong> <span id="record-emotion"></span></p>
+                <p><strong>Lesson:</strong> <span id="record-lesson"></span></p>
+                <p><strong>Description:</strong> <span id="record-description"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Akashic Records GUI — Foundation Build | Built with cosmic technology</p>
+    </footer>
+
+    <script>
+        class Chronoscroll {
+            constructor() {
+                this.canvas = document.getElementById('chronoscroll-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.orbs = [];
+                this.tooltip = document.getElementById('tooltip');
+                this.recordPanel = document.getElementById('record-panel');
+                this.particles = document.getElementById('particles');
+                
+                this.init();
+                this.createParticles();
+                this.createMemoryOrbs();
+                this.setupEventListeners();
+                this.animate();
+            }
+
+            init() {
+                this.resizeCanvas();
+                window.addEventListener('resize', () => this.resizeCanvas());
+            }
+
+            resizeCanvas() {
+                const rect = this.canvas.getBoundingClientRect();
+                this.canvas.width = rect.width;
+                this.canvas.height = rect.height;
+            }
+
+            createParticles() {
+                for (let i = 0; i < 50; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 20 + 's';
+                    particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                    this.particles.appendChild(particle);
+                }
+            }
+
+            createMemoryOrbs() {
+                const orbCount = 80;
+                const orbTypes = [
+                    { name: 'Memory Orb', color: 'hsl(45, 85%, 65%)', size: 8 },
+                    { name: 'Soul Fragment', color: 'hsl(270, 60%, 40%)', size: 6 },
+                    { name: 'Time Echo', color: 'hsl(220, 70%, 50%)', size: 10 },
+                    { name: 'Karmic Loop', color: 'hsl(180, 60%, 45%)', size: 7 },
+                    { name: 'Divine Spark', color: 'hsl(45, 100%, 75%)', size: 5 }
+                ];
+
+                for (let i = 0; i < orbCount; i++) {
+                    const orbType = orbTypes[Math.floor(Math.random() * orbTypes.length)];
+                    const orb = {
+                        x: Math.random() * (this.canvas.width - 20) + 10,
+                        y: Math.random() * (this.canvas.height - 20) + 10,
+                        size: orbType.size,
+                        color: orbType.color,
+                        type: orbType.name,
+                        pulsePhase: Math.random() * Math.PI * 2,
+                        pulseSpeed: 0.02 + Math.random() * 0.03,
+                        glowIntensity: 0.5 + Math.random() * 0.5,
+                        title: this.generateOrbTitle(orbType.name),
+                        description: this.generateOrbDescription(orbType.name),
+                        date: this.generateRandomDate(),
+                        emotion: this.generateRandomEmotion(),
+                        lesson: this.generateRandomLesson()
+                    };
+                    this.orbs.push(orb);
+                }
+            }
+
+            generateOrbTitle(type) {
+                const titles = {
+                    'Memory Orb': ['Ancient Wisdom', 'Forgotten Dreams', 'Sacred Moment', 'Eternal Memory'],
+                    'Soul Fragment': ['Soul Echo', 'Spiritual Essence', 'Divine Spark', 'Cosmic Fragment'],
+                    'Time Echo': ['Temporal Resonance', 'Time Ripple', 'Chronological Echo', 'Moment Reverb'],
+                    'Karmic Loop': ['Karmic Cycle', 'Soul Lesson', 'Spiritual Debt', 'Cosmic Balance'],
+                    'Divine Spark': ['Divine Light', 'Sacred Flame', 'Heavenly Glow', 'Celestial Fire']
+                };
+                return titles[type][Math.floor(Math.random() * titles[type].length)];
+            }
+
+            generateOrbDescription(type) {
+                const descriptions = {
+                    'Memory Orb': 'A fragment of consciousness containing memories from across the cosmic timeline',
+                    'Soul Fragment': 'A piece of spiritual essence that carries the essence of a soul\'s journey',
+                    'Time Echo': 'A resonance of events that ripples through the fabric of spacetime',
+                    'Karmic Loop': 'A cycle of cause and effect that shapes the soul\'s evolution',
+                    'Divine Spark': 'A fragment of divine light that illuminates the path to enlightenment'
+                };
+                return descriptions[type];
+            }
+
+            generateRandomDate() {
+                const years = ['Ancient Era', 'Medieval Times', 'Renaissance', 'Modern Age', 'Future Epoch'];
+                return years[Math.floor(Math.random() * years.length)];
+            }
+
+            generateRandomEmotion() {
+                const emotions = ['Joy', 'Sorrow', 'Love', 'Fear', 'Hope', 'Peace', 'Wonder', 'Longing'];
+                return emotions[Math.floor(Math.random() * emotions.length)];
+            }
+
+            generateRandomLesson() {
+                const lessons = [
+                    'All experiences serve the soul\'s growth',
+                    'Love is the fundamental force of creation',
+                    'Time is an illusion of the material realm',
+                    'Every choice creates ripples across dimensions',
+                    'Wisdom comes through embracing both light and shadow'
+                ];
+                return lessons[Math.floor(Math.random() * lessons.length)];
+            }
+
+            setupEventListeners() {
+                this.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+                this.canvas.addEventListener('click', (e) => this.handleClick(e));
+                document.getElementById('close-panel').addEventListener('click', () => this.closeRecordPanel());
+                document.getElementById('record-panel').addEventListener('click', (e) => {
+                    if (e.target === this.recordPanel) this.closeRecordPanel();
+                });
+
+                // Filter buttons
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => this.handleFilterClick(e));
+                });
+            }
+
+            handleMouseMove(e) {
+                const rect = this.canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                let hoveredOrb = null;
+                for (const orb of this.orbs) {
+                    const distance = Math.sqrt((x - orb.x) ** 2 + (y - orb.y) ** 2);
+                    if (distance < orb.size + 10) {
+                        hoveredOrb = orb;
+                        break;
+                    }
+                }
+
+                if (hoveredOrb) {
+                    this.showTooltip(e.clientX, e.clientY, hoveredOrb);
+                } else {
+                    this.hideTooltip();
+                }
+            }
+
+            handleClick(e) {
+                const rect = this.canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                for (const orb of this.orbs) {
+                    const distance = Math.sqrt((x - orb.x) ** 2 + (y - orb.y) ** 2);
+                    if (distance < orb.size + 10) {
+                        this.openRecordPanel(orb);
+                        orb.clicked = true;
+                        setTimeout(() => {
+                            orb.clicked = false;
+                            // Respawn orb in new location
+                            orb.x = Math.random() * (this.canvas.width - 20) + 10;
+                            orb.y = Math.random() * (this.canvas.height - 20) + 10;
+                        }, 1000);
+                        break;
+                    }
+                }
+            }
+
+            showTooltip(x, y, orb) {
+                this.tooltip.querySelector('#tooltip-title').textContent = orb.title;
+                this.tooltip.querySelector('#tooltip-description').textContent = orb.description;
+                
+                // Position tooltip to avoid screen edges
+                const tooltipRect = this.tooltip.getBoundingClientRect();
+                let tooltipX = x + 10;
+                let tooltipY = y - 10;
+
+                if (tooltipX + tooltipRect.width > window.innerWidth) {
+                    tooltipX = x - tooltipRect.width - 10;
+                }
+                if (tooltipY < 0) {
+                    tooltipY = y + 20;
+                }
+
+                this.tooltip.style.left = tooltipX + 'px';
+                this.tooltip.style.top = tooltipY + 'px';
+                this.tooltip.classList.add('show');
+            }
+
+            hideTooltip() {
+                this.tooltip.classList.remove('show');
+            }
+
+            openRecordPanel(orb) {
+                document.getElementById('record-title').textContent = orb.title;
+                document.getElementById('record-date').textContent = orb.date;
+                document.getElementById('record-emotion').textContent = orb.emotion;
+                document.getElementById('record-lesson').textContent = orb.lesson;
+                document.getElementById('record-description').textContent = orb.description;
+                
+                this.recordPanel.classList.add('show');
+            }
+
+            closeRecordPanel() {
+                this.recordPanel.classList.remove('show');
+            }
+
+            handleFilterClick(e) {
+                // Remove active class from all buttons
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                e.target.classList.add('active');
+                
+                // In a full implementation, this would filter the orbs
+                // For now, we'll just add a visual effect
+                this.orbs.forEach(orb => {
+                    orb.filterPulse = true;
+                    setTimeout(() => orb.filterPulse = false, 1000);
+                });
+            }
+
+            drawOrb(orb) {
+                const ctx = this.ctx;
+                
+                // Outer glow
+                const gradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.size * 3);
+                gradient.addColorStop(0, orb.color + '80');
+                gradient.addColorStop(0.5, orb.color + '40');
+                gradient.addColorStop(1, orb.color + '00');
+                
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(orb.x, orb.y, orb.size * 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Inner spark
+                const sparkGradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.size);
+                sparkGradient.addColorStop(0, orb.color);
+                sparkGradient.addColorStop(0.7, orb.color + 'CC');
+                sparkGradient.addColorStop(1, orb.color + '66');
+                
+                ctx.fillStyle = sparkGradient;
+                ctx.beginPath();
+                ctx.arc(orb.x, orb.y, orb.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Pulsing effect
+                if (orb.pulsePhase !== undefined) {
+                    orb.pulsePhase += orb.pulseSpeed;
+                    const pulseScale = 1 + Math.sin(orb.pulsePhase) * 0.2;
+                    
+                    ctx.save();
+                    ctx.translate(orb.x, orb.y);
+                    ctx.scale(pulseScale, pulseScale);
+                    ctx.translate(-orb.x, -orb.y);
+                    
+                    // Inner core
+                    ctx.fillStyle = orb.color;
+                    ctx.beginPath();
+                    ctx.arc(orb.x, orb.y, orb.size * 0.3, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.restore();
+                }
+
+                // Filter pulse effect
+                if (orb.filterPulse) {
+                    ctx.strokeStyle = orb.color;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(orb.x, orb.y, orb.size * 2, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+            }
+
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Draw orbs
+                this.orbs.forEach(orb => this.drawOrb(orb));
+                
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        // Initialize the Chronoscroll when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new Chronoscroll();
+        });
+    </script>
+</body>
+</html>
