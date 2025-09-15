@@ -108,10 +108,7 @@ export default function App() {
     setIsLoading(false);
   };
 
-  const handleOrbClick = async (orb: HTMLElement) => {
-    const type = orb.dataset.type;
-    const title = orb.dataset.title;
-    
+  const handleOrbClick = async (type: string, title: string) => {
     setIsLoading(true);
     const voice = Voices[activeVoice as keyof typeof Voices];
     const prompt = `Interpret this ${type}: ${title}. What wisdom does it hold?`;
@@ -124,9 +121,7 @@ export default function App() {
     setIsLoading(false);
   };
 
-  const handleStarClick = async (star: HTMLElement) => {
-    const archetype = star.dataset.archetype;
-    
+  const handleStarClick = async (archetype: string) => {
     setIsLoading(true);
     const voice = Voices[activeVoice as keyof typeof Voices];
     const prompt = `Reflect on the ${archetype} archetype. What does this constellation reveal about the soul?`;
@@ -139,8 +134,7 @@ export default function App() {
     setIsLoading(false);
   };
 
-  const handleRuneClick = (rune: HTMLElement) => {
-    const law = rune.dataset.law;
+  const handleRuneClick = (law: string) => {
     const laws = {
       reflection: "The Law of Reflection: All actions return to their source, creating infinite mirrors of consequence.",
       consent: "The Law of Consent: Nothing enters the realm without conscious agreement and sacred permission.",
@@ -155,57 +149,99 @@ export default function App() {
     });
   };
 
-  useEffect(() => {
-    // Add event listeners for interactive elements
-    const orbs = document.querySelectorAll('.orb');
-    orbs.forEach(orb => {
-      orb.addEventListener('click', () => handleOrbClick(orb as HTMLElement));
-    });
-
-    const stars = document.querySelectorAll('.star');
-    stars.forEach(star => {
-      star.addEventListener('click', () => handleStarClick(star as HTMLElement));
-    });
-
-    const runes = document.querySelectorAll('.rune');
-    runes.forEach(rune => {
-      rune.addEventListener('click', () => handleRuneClick(rune as HTMLElement));
-    });
-
-    const voiceButtons = document.querySelectorAll('.voice-btn');
-    voiceButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        voiceButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        setActiveVoice(btn.getAttribute('data-voice') || 'sophia');
-      });
-    });
-
-    const voiceInputEl = document.querySelector('.voice-input') as HTMLInputElement;
-    if (voiceInputEl) {
-      voiceInputEl.addEventListener('input', (e) => {
-        setVoiceInput((e.target as HTMLInputElement).value);
-      });
-      
-      voiceInputEl.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          handleVoiceSubmit();
-        }
-      });
+  const testLaw = () => {
+    if (modal?.type === 'rune') {
+      const runeElement = document.querySelector(`[data-law="${modal.content.law}"]`);
+      if (runeElement) {
+        runeElement.style.animation = 'pulse 0.5s ease-in-out 3';
+        setTimeout(() => {
+          runeElement.style.animation = '';
+        }, 1500);
+      }
     }
-
-    const voiceOutputEl = document.getElementById('voice-output');
-    if (voiceOutputEl) {
-      voiceOutputEl.textContent = voiceOutput;
-    }
-
-    return () => {
-      // Cleanup listeners if needed
-    };
-  }, [voiceOutput, isLoading]);
+  };
 
   return (
-    <div>
+    <div className="cosmic-container">
+      <header className="cosmic-header">
+        <h1 className="cosmic-title">Akashic Records</h1>
+        <p className="cosmic-subtitle">Nexus of Infinity</p>
+      </header>
+      
+      <main className="modules-grid">
+        <div className="module-card">
+          <h2 className="module-title">Chronoscroll</h2>
+          <div className="module-content">
+            <div className="orb" onClick={() => handleOrbClick('memory', 'Memory Orb')}></div>
+            <div className="orb" onClick={() => handleOrbClick('soul', 'Soul Fragment')}></div>
+            <div className="orb" onClick={() => handleOrbClick('echo', 'Time Echo')}></div>
+          </div>
+        </div>
+
+        <div className="module-card">
+          <h2 className="module-title">Mirror of Self</h2>
+          <div className="module-content">
+            <div className="constellation">
+              <div className="star" onClick={() => handleStarClick('sage')}></div>
+              <div className="star" onClick={() => handleStarClick('warrior')}></div>
+              <div className="star" onClick={() => handleStarClick('lover')}></div>
+              <div className="star" onClick={() => handleStarClick('magician')}></div>
+            </div>
+          </div>
+        </div>
+
+        <div className="module-card">
+          <h2 className="module-title">Voices of the Demiurge</h2>
+          <div className="module-content">
+            <div className="voice-selector">
+              {Object.entries(Voices).map(([key, voice]) => (
+                <button
+                  key={key}
+                  className={`voice-btn ${activeVoice === key ? 'active' : ''}`}
+                  onClick={() => setActiveVoice(key)}
+                >
+                  {voice.name} {voice.emoji}
+                </button>
+              ))}
+            </div>
+            <input
+              type="text"
+              className="voice-input"
+              placeholder="Ask the Demiurge..."
+              value={voiceInput}
+              onChange={(e) => setVoiceInput(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleVoiceSubmit()}
+            />
+            <div className="voice-output">{voiceOutput}</div>
+            <button 
+              onClick={handleVoiceSubmit}
+              style={{
+                padding: '0.5rem 1rem',
+                background: 'var(--gradient-cosmic)',
+                border: 'none',
+                borderRadius: '8px',
+                color: 'white',
+                cursor: 'pointer',
+                marginTop: '0.5rem'
+              }}
+            >
+              Ask
+            </button>
+          </div>
+        </div>
+
+        <div className="module-card">
+          <h2 className="module-title">Rules of the Realm</h2>
+          <div className="module-content">
+            <div className="rune" onClick={() => handleRuneClick('reflection')}>ᚱ</div>
+            <div className="rune" onClick={() => handleRuneClick('consent')}>ᚲ</div>
+            <div className="rune" onClick={() => handleRuneClick('fractal')}>ᚠ</div>
+            <div className="rune" onClick={() => handleRuneClick('cycles')}>ᚢ</div>
+            <div className="rune" onClick={() => handleRuneClick('axiom')}>ᚦ</div>
+          </div>
+        </div>
+      </main>
+
       {/* Modal */}
       {modal && (
         <div className="modal" onClick={() => setModal(null)}>
@@ -230,16 +266,20 @@ export default function App() {
               <div>
                 <h3>Law of {modal.content.law}</h3>
                 <p>{modal.content.description}</p>
-                <button onClick={() => {
-                  // Test Law vibration effect
-                  const rune = document.querySelector(`[data-law="${modal.content.law}"]`);
-                  if (rune) {
-                    rune.style.animation = 'pulse 0.5s ease-in-out 3';
-                    setTimeout(() => {
-                      rune.style.animation = '';
-                    }, 1500);
-                  }
-                }}>Test Law</button>
+                <button 
+                  onClick={testLaw}
+                  style={{
+                    padding: '0.5rem 1rem',
+                    background: 'var(--gradient-cosmic)',
+                    border: 'none',
+                    borderRadius: '8px',
+                    color: 'white',
+                    cursor: 'pointer',
+                    marginTop: '1rem'
+                  }}
+                >
+                  Test Law
+                </button>
               </div>
             )}
           </div>
@@ -248,20 +288,7 @@ export default function App() {
 
       {/* Loading overlay */}
       {isLoading && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0,0,0,0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 9999,
-          color: 'white',
-          fontSize: '1.5rem'
-        }}>
+        <div className="loading-overlay">
           <div className="loading">Consulting the Akashic Records...</div>
         </div>
       )}
