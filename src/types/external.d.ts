@@ -1,8 +1,3 @@
-declare module 'spect' {
-  const spect: any
-  export default spect
-}
-
 declare module '@google/genai' {
   export class GoogleGenAI {
     constructor(options: { apiKey: string })
