@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
           contents: userPrompt,
           config: { systemInstruction },
         });
-        return response.text;
+        return response.text ?? "";
       } catch (err) {
         console.error("Gemini error:", err);
         return Promise.reject("Cosmic connection failed.");
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return { generate };
   })();
 
-  // --- PARTICLES + AURORA (Loveable GUI graphics) ---
+  // --- PARTICLES + AURORA (background graphics) ---
   const setupParticles = () => {
     const canvas = document.createElement("canvas");
     canvas.id = "particle-canvas";
