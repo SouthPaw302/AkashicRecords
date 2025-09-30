@@ -10,11 +10,16 @@ Create a `.env.local` in the project root (not committed):
 
 ```
 VITE_GEMINI_API_KEY=your_api_key_here
+VITE_SUPABASE_URL=https://your-project-id.supabase.co
+VITE_SUPABASE_ANON_KEY=your_anon_key_here
 ```
 
 - This key is used client-side by `@google/generative-ai` and `@google/genai`.
 - Restrict the key in Google AI Studio to your domain.
 - Without the key, the UI loads but AI prompts won’t work.
+
+Supabase
+- `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` are safe for client usage (anon key). Restrict policies with RLS.
 
 ### Scripts
 - dev: `npm run dev`
