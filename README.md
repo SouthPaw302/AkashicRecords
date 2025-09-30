@@ -54,3 +54,4 @@ ISC
 ### Spec Kit (GitHub)
 - Spec Kit is a set of engineering rules and practices for coding projects: `https://github.com/github/spec-kit`
 - We didn’t add any runtime dependency; follow the guidelines during implementation and reviews.
+- See `CONTRIBUTING.md` and `docs/spec-kit/CONSTITUTION.md`.
