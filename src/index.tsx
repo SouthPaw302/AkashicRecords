@@ -1,7 +1,9 @@
 // index.tsx
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
+import spect from "spect";
 
 document.addEventListener("DOMContentLoaded", () => {
+  (window as any).Spect = spect;
   // --- AKASHIC INTELLIGENCE ---
   const AkashicIntelligence = (() => {
     let ai: GoogleGenAI | null = null;
