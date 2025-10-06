@@ -7,12 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let ai: GoogleGenAI | null = null;
     try {
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-      console.log("API Key check:", apiKey ? "Present" : "Missing", apiKey ? `(${apiKey.substring(0, 8)}...)` : "");
       if (apiKey && apiKey !== 'your_api_key_here') {
         ai = new GoogleGenAI({ apiKey });
-        console.log("GoogleGenAI initialized successfully");
-      } else {
-        console.warn("GoogleGenAI not initialized - API key missing or invalid");
       }
     } catch (error) {
       console.error("Failed to init GoogleGenAI:", error);
@@ -35,6 +31,20 @@ document.addEventListener("DOMContentLoaded", () => {
     
     return { generate };
   })();
+
+  // Provide a minimal global Voices API so UI handlers can call ask()
+  (window as any).Voices = {
+    ask: async (prompt: string) => {
+      try {
+        const systemInstruction = "You are Sophia, the voice of divine wisdom. Respond concisely.";
+        const response = await AkashicIntelligence.generate(systemInstruction, prompt);
+        return response;
+      } catch (error) {
+        console.error("Voices.ask error:", error);
+        return "Unable to reach the Demiurge right now.";
+      }
+    }
+  };
 
   // --- PARTICLES + AURORA (Loveable GUI graphics) ---
   const setupParticles = () => {
@@ -190,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!input || !speakBtn) return;
     speakBtn.addEventListener("click", () => {
       const query = input.value.trim();
-      if (query) { (window as any).Voices.ask(query); input.value = ""; }
+      if (query) { (window as any).Voices?.ask?.(query); input.value = ""; }
     });
     input.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); speakBtn.click(); } });
   };
@@ -230,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- UNIFIED API ---
   (window as any).Akashic = {
-    ask: (prompt: string) => (window as any).Voices.ask(prompt),
+    ask: (prompt: string) => (window as any).Voices?.ask?.(prompt),
     bindSoul: (seed: string) => (window as any).MirrorOfSelf?.addTrace(seed),
     testLaw: () => { document.body.classList.add("law-test-active"); setTimeout(() => document.body.classList.remove("law-test-active"), 500); },
   };
