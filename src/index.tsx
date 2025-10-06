@@ -16,15 +16,28 @@ document.addEventListener("DOMContentLoaded", () => {
     
     async function generate(systemInstruction: string, userPrompt: string): Promise<string> {
       if (!ai) return Promise.reject("Gemini API not initialized.");
-      try {
-        const model = ai.getGenerativeModel({ model: "gemini-1.5-flash-latest", systemInstruction });
-        const result = await model.generateContent([{ text: userPrompt }]);
-        const response = await result.response;
-        return response.text();
-      } catch (err) {
-        console.error("Gemini error:", err);
-        return Promise.reject("Cosmic connection failed.");
+      const candidates = [
+        // Prefer widely supported v1beta models first
+        "gemini-1.0-pro",
+        "gemini-pro",
+        // Then try newer variants where available
+        "gemini-1.5-pro-latest",
+        "gemini-1.5-flash-latest",
+      ];
+      let lastError: unknown = null;
+      for (const modelName of candidates) {
+        try {
+          const model = ai.getGenerativeModel({ model: modelName, systemInstruction });
+          const result = await model.generateContent([{ text: userPrompt }]);
+          const response = await result.response;
+          return response.text();
+        } catch (err) {
+          lastError = err;
+          // try next model
+        }
       }
+      console.error("Gemini error:", lastError);
+      return Promise.reject("Cosmic connection failed.");
     }
     
     return { generate };
