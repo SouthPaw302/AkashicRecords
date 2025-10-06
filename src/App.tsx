@@ -7,8 +7,12 @@ const AkashicIntelligence = (() => {
   
   try {
     const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    console.log("App.tsx API Key check:", apiKey ? "Present" : "Missing", apiKey ? `(${apiKey.substring(0, 8)}...)` : "");
     if (apiKey && apiKey !== 'your_api_key_here') {
       ai = new GoogleGenerativeAI(apiKey);
+      console.log("GoogleGenerativeAI initialized successfully in App.tsx");
+    } else {
+      console.warn("GoogleGenerativeAI not initialized in App.tsx - API key missing or invalid");
     }
   } catch (error) {
     console.error("Failed to initialize GoogleGenerativeAI:", error);

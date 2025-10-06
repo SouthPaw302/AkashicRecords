@@ -6,10 +6,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const AkashicIntelligence = (() => {
     let ai: GoogleGenAI | null = null;
     try {
-      ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      console.log("API Key check:", apiKey ? "Present" : "Missing", apiKey ? `(${apiKey.substring(0, 8)}...)` : "");
+      if (apiKey && apiKey !== 'your_api_key_here') {
+        ai = new GoogleGenAI({ apiKey });
+        console.log("GoogleGenAI initialized successfully");
+      } else {
+        console.warn("GoogleGenAI not initialized - API key missing or invalid");
+      }
     } catch (error) {
       console.error("Failed to init GoogleGenAI:", error);
     }
+    
     async function generate(systemInstruction: string, userPrompt: string): Promise<string> {
       if (!ai) return Promise.reject("Gemini API not initialized.");
       try {
@@ -24,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return Promise.reject("Cosmic connection failed.");
       }
     }
+    
     return { generate };
   })();
 
