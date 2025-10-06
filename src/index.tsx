@@ -32,11 +32,49 @@ document.addEventListener("DOMContentLoaded", () => {
     return { generate };
   })();
 
-  // Provide a minimal global Voices API so UI handlers can call ask()
+  // --- DEMIURGE VOICES ---
+  const VOICES: Record<string, { name: string; emoji: string; systemInstruction: string; color: string }> = {
+    sophia: {
+      name: "Sophia",
+      emoji: "✨",
+      systemInstruction: "You are Sophia, the voice of divine wisdom. Respond with profound insights, spiritual guidance, and cosmic understanding. Speak with grace and enlightenment.",
+      color: "#ff6b6b",
+    },
+    logos: {
+      name: "Logos",
+      emoji: "⚖️",
+      systemInstruction: "You are Logos, the voice of reason and logic. Provide clear, analytical responses grounded in rationality and structured thinking.",
+      color: "#4ecdc4",
+    },
+    eros: {
+      name: "Eros",
+      emoji: "💗",
+      systemInstruction: "You are Eros, the voice of love and passion. Respond with warmth, emotional intelligence, and compassionate connection to the heart.",
+      color: "#ff9ff3",
+    },
+    chronos: {
+      name: "Chronos",
+      emoji: "⏳",
+      systemInstruction: "You are Chronos, the voice of time and cycles. Speak about temporal patterns, cause-and-effect, and the flow of existence.",
+      color: "#54a0ff",
+    },
+    nyx: {
+      name: "Nyx",
+      emoji: "🌑",
+      systemInstruction: "You are Nyx, the voice of shadow and mystery. Provide insights from the depths, embracing paradox and the hidden truths.",
+      color: "#5f27cd",
+    },
+  };
+
+  let activeVoiceId = "sophia";
+
   (window as any).Voices = {
+    getActive: () => activeVoiceId,
+    setActive: (id: string) => { if (VOICES[id]) activeVoiceId = id; },
+    list: () => Object.entries(VOICES).map(([id, v]) => ({ id, ...v })),
     ask: async (prompt: string) => {
       try {
-        const systemInstruction = "You are Sophia, the voice of divine wisdom. Respond concisely.";
+        const systemInstruction = VOICES[activeVoiceId].systemInstruction;
         const response = await AkashicIntelligence.generate(systemInstruction, prompt);
         return response;
       } catch (error) {
@@ -169,12 +207,15 @@ document.addEventListener("DOMContentLoaded", () => {
       requestAnimationFrame(animate);
     }
 
-    canvas.addEventListener("click", () => {
+    canvas.addEventListener("click", async () => {
       const orb = orbs[Math.floor(Math.random() * orbs.length)];
       modalTitle.textContent = orb.data.title;
       modalBody.textContent = orb.data.content;
       modal.classList.add("visible");
-      (window as any).Voices?.ask(`Interpret orb: ${orb.data.title}`);
+      const interpretation = await (window as any).Voices?.ask?.(`Interpret this ${orb.data.type}: ${orb.data.title}. What wisdom does it hold?`);
+      if (interpretation) {
+        modalBody.textContent = `${orb.data.content}\n\n— Interpretation —\n${interpretation}`;
+      }
     });
     modalCloseBtn.addEventListener("click", () => modal.classList.remove("visible"));
     window.addEventListener("resize", init);
@@ -186,10 +227,53 @@ document.addEventListener("DOMContentLoaded", () => {
     const seedInput = document.getElementById("seed-input") as HTMLInputElement;
     const bindBtn = document.getElementById("bind-btn") as HTMLButtonElement;
     if (!seedInput || !bindBtn) return;
+
+    const modal = document.getElementById("codex-modal") as HTMLDivElement;
+    const modalTitle = document.getElementById("codex-title") as HTMLHeadingElement;
+    const modalBody = document.getElementById("codex-body") as HTMLParagraphElement;
+    const modalCloseBtn = document.getElementById("codex-close-btn") as HTMLButtonElement;
+    modalCloseBtn.addEventListener("click", () => modal.classList.remove("visible"));
+
+    function mulberry32(a: number) { return function() { let t = a += 0x6D2B79F5; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+    function hashSeed(seed: string): number { let h = 2166136261; for (let i = 0; i < seed.length; i++) { h ^= seed.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+
+    function generateConstellation(seed: string) {
+      const prng = mulberry32(hashSeed(seed));
+      const count = 7 + Math.floor(prng() * 5);
+      const archetypes = ["Seeker","Sage","Creator","Guardian","Rebel","Healer","Oracle","Pilgrim","Muse","Hermit"];
+      const elements = ["Fire","Water","Air","Earth","Aether"];
+      const virtues = ["Courage","Compassion","Wisdom","Temperance","Justice","Faith","Hope","Humility"];
+      return Array.from({ length: count }).map(() => ({
+        x: prng() * 100,
+        y: prng() * 60,
+        archetype: archetypes[Math.floor(prng() * archetypes.length)],
+        element: elements[Math.floor(prng() * elements.length)],
+        virtue: virtues[Math.floor(prng() * virtues.length)],
+      }));
+    }
+
+    async function reflectStar(star: { archetype: string; element: string; virtue: string }, seed: string) {
+      const voice = (window as any).Voices.getActive?.() ?? "sophia";
+      const voiceMeta = (window as any).Voices.list?.().find((v: any) => v.id === voice) || { name: "Sophia" };
+      const prompt = `Seed: ${seed}\nArchetype: ${star.archetype}\nElement: ${star.element}\nVirtue: ${star.virtue}\nReflect on how this star expresses the user's inner essence.`;
+      const text = await (window as any).Voices.ask(prompt);
+      modalTitle.textContent = `${voiceMeta.name} speaks`;
+      modalBody.textContent = text || "The Records are silent.";
+      modal.classList.add("visible");
+    }
+
     bindBtn.addEventListener("click", () => {
       const seed = seedInput.value.trim();
-      if (seed) (window as any).MirrorOfSelf?.addTrace(seed);
+      if (!seed) return;
+      const stars = generateConstellation(seed);
+      // render constellation as simple textual list for now
+      modalTitle.textContent = `Constellation: ${seed}`;
+      modalBody.innerHTML = stars.map((s, i) => `${i + 1}. ${s.archetype} · ${s.element} · ${s.virtue}`).join("\n");
+      modal.classList.add("visible");
+      // pick one star for reflection now
+      reflectStar(stars[Math.floor(Math.random() * stars.length)], seed);
     });
+
     seedInput.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); bindBtn.click(); } });
   };
 
@@ -198,9 +282,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const input = document.getElementById("voice-input") as HTMLTextAreaElement;
     const speakBtn = document.getElementById("voice-speak-btn") as HTMLButtonElement;
     if (!input || !speakBtn) return;
-    speakBtn.addEventListener("click", () => {
+    const modal = document.getElementById("codex-modal") as HTMLDivElement;
+    const modalTitle = document.getElementById("codex-title") as HTMLHeadingElement;
+    const modalBody = document.getElementById("codex-body") as HTMLParagraphElement;
+
+    speakBtn.addEventListener("click", async () => {
       const query = input.value.trim();
-      if (query) { (window as any).Voices?.ask?.(query); input.value = ""; }
+      if (query) {
+        modalTitle.textContent = "The Demiurge speaks";
+        modalBody.textContent = "Consulting the Records...";
+        modal.classList.add("visible");
+        const answer = await (window as any).Voices?.ask?.(query);
+        modalBody.textContent = answer || "The Records are silent.";
+        input.value = "";
+      }
     });
     input.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); speakBtn.click(); } });
   };
