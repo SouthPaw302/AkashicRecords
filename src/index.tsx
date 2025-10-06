@@ -1,14 +1,14 @@
 // index.tsx
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 
 document.addEventListener("DOMContentLoaded", () => {
   // --- AKASHIC INTELLIGENCE ---
   const AkashicIntelligence = (() => {
-    let ai: GoogleGenerativeAI | null = null;
+    let ai: GoogleGenAI | null = null;
     try {
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
       if (apiKey && apiKey !== 'your_api_key_here') {
-        ai = new GoogleGenerativeAI(apiKey);
+        ai = new GoogleGenAI({ apiKey, baseUrl: "https://generativelanguage.googleapis.com/v1" });
       }
     } catch (error) {
       console.error("Failed to init GoogleGenAI:", error);
@@ -17,20 +17,21 @@ document.addEventListener("DOMContentLoaded", () => {
     async function generate(systemInstruction: string, userPrompt: string): Promise<string> {
       if (!ai) return Promise.reject("Gemini API not initialized.");
       const candidates = [
-        // Prefer widely supported v1beta models first
+        // Prefer v1 models
+        "gemini-1.5-flash",
+        "gemini-1.5-pro",
         "gemini-1.0-pro",
         "gemini-pro",
-        // Then try newer variants where available
-        "gemini-1.5-pro-latest",
-        "gemini-1.5-flash-latest",
       ];
       let lastError: unknown = null;
       for (const modelName of candidates) {
         try {
-          const model = ai.getGenerativeModel({ model: modelName, systemInstruction });
-          const result = await model.generateContent([{ text: userPrompt }]);
-          const response = await result.response;
-          return response.text();
+          const response = await ai.models.generateContent({
+            model: modelName,
+            contents: userPrompt,
+            config: { systemInstruction },
+          });
+          return response.text;
         } catch (err) {
           lastError = err;
           // try next model
