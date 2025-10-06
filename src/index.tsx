@@ -1,14 +1,14 @@
 // index.tsx
-import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 document.addEventListener("DOMContentLoaded", () => {
   // --- AKASHIC INTELLIGENCE ---
   const AkashicIntelligence = (() => {
-    let ai: GoogleGenAI | null = null;
+    let ai: GoogleGenerativeAI | null = null;
     try {
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
       if (apiKey && apiKey !== 'your_api_key_here') {
-        ai = new GoogleGenAI({ apiKey });
+        ai = new GoogleGenerativeAI(apiKey);
       }
     } catch (error) {
       console.error("Failed to init GoogleGenAI:", error);
@@ -17,12 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
     async function generate(systemInstruction: string, userPrompt: string): Promise<string> {
       if (!ai) return Promise.reject("Gemini API not initialized.");
       try {
-        const response: GenerateContentResponse = await ai.models.generateContent({
-          model: "gemini-1.5-flash",
-          contents: userPrompt,
-          config: { systemInstruction },
-        });
-        return response.text;
+        const model = ai.getGenerativeModel({ model: "gemini-1.5-flash-latest", systemInstruction });
+        const result = await model.generateContent([{ text: userPrompt }]);
+        const response = await result.response;
+        return response.text();
       } catch (err) {
         console.error("Gemini error:", err);
         return Promise.reject("Cosmic connection failed.");
