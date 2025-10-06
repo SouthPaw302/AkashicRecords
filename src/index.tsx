@@ -1,46 +1,24 @@
 // index.tsx
-import { GoogleGenAI } from "@google/genai";
+// Calls to Gemini are proxied via Netlify Function now
 
 document.addEventListener("DOMContentLoaded", () => {
   // --- AKASHIC INTELLIGENCE ---
   const AkashicIntelligence = (() => {
-    let ai: GoogleGenAI | null = null;
-    try {
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-      if (apiKey && apiKey !== 'your_api_key_here') {
-        ai = new GoogleGenAI({ apiKey, baseUrl: "https://generativelanguage.googleapis.com/v1" });
-      }
-    } catch (error) {
-      console.error("Failed to init GoogleGenAI:", error);
-    }
-    
     async function generate(systemInstruction: string, userPrompt: string): Promise<string> {
-      if (!ai) return Promise.reject("Gemini API not initialized.");
-      const candidates = [
-        // Prefer v1 models
-        "gemini-1.5-flash",
-        "gemini-1.5-pro",
-        "gemini-1.0-pro",
-        "gemini-pro",
-      ];
-      let lastError: unknown = null;
-      for (const modelName of candidates) {
-        try {
-          const response = await ai.models.generateContent({
-            model: modelName,
-            contents: userPrompt,
-            config: { systemInstruction },
-          });
-          return response.text;
-        } catch (err) {
-          lastError = err;
-          // try next model
-        }
+      try {
+        const res = await fetch('/.netlify/functions/gemini', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ systemInstruction, userPrompt })
+        });
+        if (!res.ok) throw new Error(await res.text());
+        const data = await res.json();
+        return data.text || '';
+      } catch (err) {
+        console.error('Gemini error:', err);
+        return Promise.reject('Cosmic connection failed.');
       }
-      console.error("Gemini error:", lastError);
-      return Promise.reject("Cosmic connection failed.");
     }
-    
     return { generate };
   })();
 
